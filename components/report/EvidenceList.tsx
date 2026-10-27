@@ -66,7 +66,7 @@ function EvidenceCard({ item, lang, active, defaultOpen, onHover }: { item: Evid
 export function EvidenceList({ evidence, activeId, onHover, lang }: { evidence: EvidenceItem[]; activeId: string | null; onHover(id: string | null): void; lang: Lang }) {
   const sorted = [...evidence].sort((a, b) => ORDER[a.severity] - ORDER[b.severity]);
   return (
-    <section aria-label={lang === "hi" ? "सबूत" : "Evidence"} className="card animate-fade-up p-5">
+    <section id="evidence" aria-label={lang === "hi" ? "सबूत" : "Evidence"} className="card scroll-mt-40 animate-fade-up p-5 lg:scroll-mt-20">
       <h3 className="font-semibold">{lang === "hi" ? "सबूत" : "Evidence"} <span className="text-sm font-normal text-muted">({evidence.length})</span></h3>
       {sorted.length === 0 ? (
         <p className="mt-3 text-sm text-muted">{lang === "hi" ? "कोई विशिष्ट सबूत चिह्नित नहीं हुआ।" : "No specific evidence items were identified."}</p>

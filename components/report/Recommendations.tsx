@@ -10,7 +10,7 @@ const GROUPS: Array<{ p: "now" | "soon" | "info"; en: string; hi: string }> = [
 
 export function Recommendations({ items, lang }: { items: InvestigationReport["recommendations"]; lang: Lang }) {
   return (
-    <section id="actions" aria-label={lang === "hi" ? "सुरक्षा सुझाव" : "Safety recommendations"} className="card animate-fade-up p-5">
+    <section id="actions" aria-label={lang === "hi" ? "सुरक्षा सुझाव" : "Safety recommendations"} className="card scroll-mt-40 animate-fade-up p-5 lg:scroll-mt-20">
       <div className="flex items-center gap-2">
         <ListChecks aria-hidden className="h-4 w-4 text-accent" />
         <h3 className="font-semibold">{lang === "hi" ? "सुझाई गई कार्रवाई" : "Recommended actions"}</h3>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bell, BarChart3, FileText, Globe2, History, LayoutDashboard, Lightbulb, ListChecks, Search, Settings, ShieldCheck, Sparkles, type LucideIcon } from "lucide-react";
 import { Gauge } from "@/components/dashboard/charts";
+import { TopBarControls } from "./TopBar";
 import { useInvestigation } from "@/context/investigation-context";
 import { cn } from "@/lib/cn";
 import { ui, type UiKey } from "@/lib/i18n";
@@ -147,12 +148,13 @@ export function MobileNav() {
   const { lang } = useInvestigation();
   return (
     <header className="no-print glass sticky top-0 z-20 border-b border-line lg:hidden">
-      <div className="px-4 pt-3">
+      <div className="flex items-center justify-between gap-2 px-4 pt-2.5">
         <Link href="/" aria-label="TrustLens AI home" className="inline-block">
           <span className="text-lg font-bold">
             TrustLens <span className="text-accent">AI</span>
           </span>
         </Link>
+        <div className="flex items-center gap-2"><TopBarControls /></div>
       </div>
       <nav aria-label="Primary" className="flex px-2 pb-1 pt-1">
         {NAV.map(({ href, key, icon: Icon }) => (

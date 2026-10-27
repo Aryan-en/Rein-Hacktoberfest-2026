@@ -59,7 +59,7 @@ export function Dashboard() {
   const openReport = (id?: string) => { if (id) { open(id); router.push("/"); } };
 
   return (
-    <div className="space-y-4 pt-14 lg:pt-12">
+    <div className="space-y-4 pt-1 lg:pt-12">
       <div role="note" className={cn("flex flex-wrap items-center gap-x-3 gap-y-1 rounded-xl border px-4 py-2.5 text-sm", session ? "border-accent/30 bg-accent/5" : "border-medium/40 bg-medium/10")}>
         {badge}
         <span className="text-[#cbd5e1]">

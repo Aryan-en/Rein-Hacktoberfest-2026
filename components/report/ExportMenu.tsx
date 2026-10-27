@@ -34,7 +34,7 @@ export function ExportMenu({ report, lang }: { report: InvestigationReport; lang
         <Download aria-hidden className="h-4 w-4" /> {lang === "hi" ? "रिपोर्ट निर्यात करें" : "Export report"} <ChevronDown aria-hidden className="h-4 w-4" />
       </button>
       {open && (
-        <div role="menu" className="glass absolute right-0 z-30 mt-2 w-72 rounded-xl border border-line p-1.5 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)]">
+        <div role="menu" className="border-line-strong bg-[#101b2d] absolute right-0 z-30 mt-2 w-72 rounded-xl border border-line p-1.5 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)]">
           {items.map((it) => (
             <button key={it.label} role="menuitem" type="button" onClick={() => { it.run(); setOpen(false); }} className="flex min-h-11 w-full items-center gap-3 rounded-lg px-3 text-left text-sm hover:bg-surface-3">
               <it.icon aria-hidden className="h-4 w-4 text-accent" /> {it.label}

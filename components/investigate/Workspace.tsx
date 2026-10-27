@@ -59,7 +59,7 @@ export function Workspace() {
           <InvestigationInput lang={lang} busy={busy} cooldown={cooldown} health={health} healthChecked={healthChecked} onSubmit={(r) => void submit(r)} />
           {busy && <InvestigationProgress elapsedMs={elapsedMs} lang={lang} />}
           {status === "error" && error && <ErrorPanel error={error} lang={lang} onDismiss={reset} />}
-          {status === "success" && report && !busy && <ReportView report={report} lang={lang} />}
+          {status === "success" && report && !busy && <ReportView report={report} lang={lang} onNew={() => { reset(); requestAnimationFrame(() => { window.scrollTo({ top: 0, behavior: "smooth" }); (document.getElementById("msg") ?? document.getElementById("url"))?.focus(); }); }} />}
           {status !== "success" && !busy && <HowItWorks lang={lang} />}
         </div>
         <aside className="no-print min-w-0 space-y-6">

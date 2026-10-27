@@ -70,7 +70,7 @@ function SearchBox() {
         <kbd className="rounded border border-line px-1.5 py-0.5 text-[10px] text-muted">⌘ K</kbd>
       </div>
       {focus && needle && (
-        <div className="glass absolute left-0 right-0 z-40 mt-2 rounded-xl border border-line p-1.5 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)]">
+        <div className="border-line-strong bg-[#101b2d] absolute left-0 right-0 z-40 mt-2 rounded-xl border border-line p-1.5 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)]">
           {hits.length === 0 && pageHits.length === 0 && <p className="px-3 py-3 text-sm text-muted">{lang === "hi" ? "कोई परिणाम नहीं।" : "No results."}</p>}
           {hits.map((h) => (
             <button key={h.id} type="button" onClick={() => { openReport(h.id); setFocus(false); setQ(""); router.push("/"); }} className="block min-h-11 w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-surface-3">
@@ -88,7 +88,7 @@ function SearchBox() {
 }
 
 function Panel({ children, label }: { children: ReactNode; label: string }) {
-  return <div role="dialog" aria-label={label} className="glass absolute right-0 z-40 mt-2 w-80 rounded-xl border border-line p-4 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)]">{children}</div>;
+  return <div role="dialog" aria-label={label} className="border-line-strong bg-[#101b2d] absolute right-0 z-40 mt-2 w-80 rounded-xl border border-line p-4 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)] max-sm:fixed max-sm:inset-x-3 max-sm:top-[108px] max-sm:w-auto">{children}</div>;
 }
 
 function Notifications() {
@@ -141,20 +141,31 @@ function Account() {
             <span className="text-text">{history.length}</span>
             {lang === "hi" ? " जाँच हैं, जो रीफ़्रेश पर मिट जाती हैं।" : history.length === 1 ? " investigation, cleared on refresh." : " investigations, cleared on refresh."}
           </p>
-          <Link href="/settings" onClick={() => setOpen(false)} className="mt-3 inline-flex min-h-9 items-center text-sm text-accent hover:underline">{lang === "hi" ? "सेटिंग्स खोलें →" : "Open settings →"}</Link>
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+            <Link href="/settings" onClick={() => setOpen(false)} className="inline-flex min-h-9 items-center text-sm text-accent hover:underline">{lang === "hi" ? "सेटिंग्स खोलें →" : "Open settings →"}</Link>
+            <button type="button" onClick={() => { setOpen(false); window.dispatchEvent(new Event("trustlens:shortcuts")); }} className="inline-flex min-h-9 items-center text-sm text-accent hover:underline">{lang === "hi" ? "कीबोर्ड शॉर्टकट" : "Keyboard shortcuts"}</button>
+          </div>
         </Panel>
       )}
     </div>
   );
 }
 
-export function TopBar() {
+export function TopBarControls({ withSearch = false }: { withSearch?: boolean }) {
   return (
-    <div className="no-print absolute right-4 top-[112px] z-30 flex items-center gap-3 lg:right-8 lg:top-5">
-      <SearchBox />
+    <>
+      {withSearch && <SearchBox />}
       <Notifications />
       <LanguageSwitcher />
       <Account />
+    </>
+  );
+}
+
+export function TopBar() {
+  return (
+    <div className="no-print absolute right-8 top-5 z-30 hidden items-center gap-3 lg:flex">
+      <TopBarControls withSearch />
     </div>
   );
 }

@@ -79,7 +79,7 @@ function Card({ u, lang }: { u: UrlAnalysis; lang: Lang }) {
 export function UrlForensics({ urls, lang }: { urls: UrlAnalysis[]; lang: Lang }) {
   if (urls.length === 0) return null;
   return (
-    <section aria-label={lang === "hi" ? "लिंक फ़ोरेंसिक्स" : "URL forensics"} className="card animate-fade-up p-5">
+    <section id="links" aria-label={lang === "hi" ? "लिंक फ़ोरेंसिक्स" : "URL forensics"} className="card scroll-mt-40 animate-fade-up p-5 lg:scroll-mt-20">
       <h3 className="font-semibold">{lang === "hi" ? "लिंक फ़ोरेंसिक्स" : "URL forensics"}</h3>
       <div className="mt-3 space-y-3">{urls.map((u, i) => <Card key={i} u={u} lang={lang} />)}</div>
       <p className="mt-3 text-xs text-muted">{lang === "hi" ? "TrustLens ने इस लिंक को नहीं खोला।" : "TrustLens did not visit this link."}</p>

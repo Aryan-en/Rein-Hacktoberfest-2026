@@ -34,6 +34,7 @@ interface Ctx {
   reset(): void;
   open(id: string): void;
   clearHistory(): void;
+  removeFromHistory(id: string): void;
 }
 
 const InvestigationContext = createContext<Ctx | null>(null);
@@ -146,9 +147,13 @@ export function InvestigationProvider({ children }: { children: ReactNode }) {
     setError(null);
   }, []);
 
+  const removeFromHistory = useCallback((id: string) => {
+    setHistory((h) => h.filter((x) => x.id !== id));
+  }, []);
+
   const value = useMemo<Ctx>(
-    () => ({ lang, setLang, status, report, error, elapsedMs, cooldown, history, health, healthChecked, submit, reset, open, clearHistory }),
-    [lang, setLang, status, report, error, elapsedMs, cooldown, history, health, healthChecked, submit, reset, open, clearHistory],
+    () => ({ lang, setLang, status, report, error, elapsedMs, cooldown, history, health, healthChecked, submit, reset, open, clearHistory, removeFromHistory }),
+    [lang, setLang, status, report, error, elapsedMs, cooldown, history, health, healthChecked, submit, reset, open, clearHistory, removeFromHistory],
   );
   return <InvestigationContext.Provider value={value}>{children}</InvestigationContext.Provider>;
 }

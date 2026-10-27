@@ -16,7 +16,7 @@ export function RiskCard({ report, lang }: { report: InvestigationReport; lang: 
   const st = RISK_STYLE[c.risk];
   const Icon = ICON[c.risk];
   return (
-    <section aria-label={lang === "hi" ? "जोखिम वर्गीकरण" : "Risk classification"} className={cn("card animate-fade-up border p-5 sm:p-6", st.border, st.glow)}>
+    <section id="overview" aria-label={lang === "hi" ? "जोखिम वर्गीकरण" : "Risk classification"} className={cn("card scroll-mt-40 animate-fade-up border p-5 sm:p-6 lg:scroll-mt-20", st.border, st.glow)}>
       <div className="flex flex-wrap items-start gap-4">
         <div className={cn("grid h-16 w-16 shrink-0 place-items-center rounded-2xl border", st.border, st.bg)}>
           <Icon aria-hidden className={cn("h-8 w-8", st.text)} />

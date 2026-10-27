@@ -30,7 +30,7 @@ export function LanguageSwitcher() {
         <Languages aria-hidden className="h-4 w-4 text-muted" /> {cur.short} <ChevronDown aria-hidden className="h-4 w-4 text-muted" />
       </button>
       {open && (
-        <div role="menu" className="glass absolute right-0 z-40 mt-2 w-48 rounded-xl border border-line p-1.5 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)]">
+        <div role="menu" className="border-line-strong bg-[#101b2d] absolute right-0 z-40 mt-2 w-48 rounded-xl border border-line p-1.5 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)]">
           {OPTIONS.map((o) => (
             <button key={o.v} role="menuitemradio" aria-checked={lang === o.v} type="button" onClick={() => { setLang(o.v); setOpen(false); }} className="flex min-h-11 w-full items-center justify-between rounded-lg px-3 text-sm hover:bg-surface-3">
               {o.label} {lang === o.v && <Check aria-hidden className="h-4 w-4 text-accent" />}

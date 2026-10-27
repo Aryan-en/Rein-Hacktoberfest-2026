@@ -1,5 +1,7 @@
 "use client";
 
+import { Settings } from "lucide-react";
+import { PageHeader } from "@/components/common/PageHeader";
 import { useInvestigation } from "@/context/investigation-context";
 import { API_BASE } from "@/lib/api";
 import { ui } from "@/lib/i18n";
@@ -12,8 +14,8 @@ export function SettingsPanel() {
   );
   return (
     <div className="max-w-2xl">
-      <h1 className="text-3xl font-bold">{ui("navSettings", lang)}</h1>
-      <section className="card mt-8 p-5">
+      <PageHeader icon={Settings} title={ui("navSettings", lang)} />
+      <section className="card mt-6 p-5">
         <h2 className="font-semibold">{lang === "hi" ? "भाषा" : "Language"}</h2>
         <div role="radiogroup" aria-label="Language" className="mt-3 flex gap-2">
           {([["en", "English"], ["hi", "हिन्दी"]] as Array<[Lang, string]>).map(([v, l]) => (
@@ -27,6 +29,11 @@ export function SettingsPanel() {
         <button type="button" disabled={history.length === 0} onClick={clearHistory} className="mt-3 min-h-11 rounded-xl border border-high/40 px-5 text-sm text-high hover:bg-high/10 disabled:cursor-not-allowed disabled:opacity-40">
           {lang === "hi" ? `इतिहास साफ़ करें (${history.length})` : `Clear session history (${history.length})`}
         </button>
+      </section>
+      <section className="card mt-4 p-5">
+        <h2 className="font-semibold">{lang === "hi" ? "कीबोर्ड" : "Keyboard"}</h2>
+        <p className="mt-1 text-sm text-muted">{lang === "hi" ? "शॉर्टकट की सूची देखने के लिए ? दबाएँ।" : "Press ? anywhere to see the shortcut list."}</p>
+        <button type="button" onClick={() => window.dispatchEvent(new Event("trustlens:shortcuts"))} className="mt-3 min-h-11 rounded-xl border border-line-strong px-5 text-sm hover:border-accent/50">{lang === "hi" ? "शॉर्टकट दिखाएँ" : "Show shortcuts"}</button>
       </section>
       <section className="card mt-4 p-5">
         <h2 className="font-semibold">{lang === "hi" ? "बैकएंड" : "Backend"}</h2>

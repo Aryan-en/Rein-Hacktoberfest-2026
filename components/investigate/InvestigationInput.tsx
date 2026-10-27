@@ -140,6 +140,7 @@ export function InvestigationInput({ lang, busy, cooldown, health, healthChecked
               aria-describedby="msg-count"
               className="min-h-[170px] w-full resize-y rounded-xl border border-line bg-bg/50 p-4 pb-9 text-[15px] leading-relaxed outline-none placeholder:text-faint focus:border-accent/60"
             />
+            {text && !busy && <button type="button" onClick={() => setText("")} className="absolute bottom-2 left-3 inline-flex min-h-8 items-center rounded-md px-2 text-xs text-muted hover:text-text">{lang === "hi" ? "साफ़ करें" : "Clear"}</button>}
             <span id="msg-count" className={cn("absolute bottom-3 right-4 text-xs tabular-nums", textLen > LIMITS.maxText ? "text-high" : textLen > LIMITS.maxText * 0.9 ? "text-medium" : "text-muted")}>
               {textLen.toLocaleString()}/{LIMITS.maxText.toLocaleString()}
             </span>
@@ -182,14 +183,14 @@ export function InvestigationInput({ lang, busy, cooldown, health, healthChecked
         )}
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-2">
+      {mode !== "image" && <div className="mt-4 flex flex-wrap items-center gap-2">
         <span className="text-sm text-muted">{ui("tryExample", lang)}</span>
         {EXAMPLES.map((e) => (
           <button key={e.id} type="button" disabled={busy} onClick={() => loadExample(e)} className="min-h-9 rounded-lg border border-line bg-surface-2/60 px-3 text-xs transition-colors hover:border-accent/50 hover:text-accent sm:text-sm">
             {pick(e.label, lang)}
           </button>
         ))}
-      </div>
+      </div>}
 
       {serverDown && (
         <p role="alert" className="mt-4 rounded-lg border border-high/40 bg-high/10 p-3 text-sm text-high">
