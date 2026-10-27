@@ -54,21 +54,21 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 | T2-09 | Rate limiter & daily cap | Codex | P0 | REVIEW | T0-03 | vitest rate-limit |
 | T2-10 | `/api/analyze` + `/api/health` | Codex | P0 | REVIEW | T0-04, T2-01, T2-08, T2-09 | curl + vitest integration |
 | T2-11 | API integration tests | Codex | P0 | REVIEW | T2-10 | vitest integration |
-| T3-01 | Design system foundation | Codex | P0 | TODO | T0-02 | build + visual |
+| T3-01 | Design system foundation | Codex | P0 | REVIEW | T0-02 | build + visual |
 | T3-02 | Fixture/sample report | Codex | P0 | TODO | T0-04 | vitest demo |
-| T3-03 | Layout components | Codex | P0 | TODO | T3-01 | build + keyboard |
-| T3-04 | Landing page | Codex | P0 | TODO | T3-03, T3-02 | browser 375/1280 |
-| T3-05 | Workspace input components | Codex | P0 | TODO | T3-01 | typecheck + build |
-| T3-06 | API client & hooks | Codex | P0 | TODO | T0-04 | vitest hooks |
-| T3-07 | Report components | Codex | P0 | TODO | T3-01, T3-02 | vitest report + build |
-| T3-08 | URL forensics panel | Codex | P0 | TODO | T3-07 | vitest report |
-| T3-09 | Progress, errors, boundary | Codex | P0 | TODO | T3-06 | vitest ui |
-| T3-10 | Investigate page integration | Codex | P0 | TODO | T3-05..T3-09, T2-10 | manual journeys |
-| T3-11 | Report export | Codex | P1 | TODO | T3-10 | vitest export + print |
+| T3-03 | Layout components | Codex | P0 | REVIEW | T3-01 | build + keyboard |
+| T3-04 | Landing page | Codex | P0 | REVIEW | T3-03, T3-02 | browser 375/1280 |
+| T3-05 | Workspace input components | Codex | P0 | REVIEW | T3-01 | typecheck + build |
+| T3-06 | API client & hooks | Codex | P0 | REVIEW | T0-04 | vitest hooks |
+| T3-07 | Report components | Codex | P0 | REVIEW | T3-01, T3-02 | vitest report + build |
+| T3-08 | URL forensics panel | Codex | P0 | REVIEW | T3-07 | vitest report |
+| T3-09 | Progress, errors, boundary | Codex | P0 | REVIEW | T3-06 | vitest ui |
+| T3-10 | Investigate page integration | Codex | P0 | REVIEW | T3-05..T3-09, T2-10 | manual journeys |
+| T3-11 | Report export | Codex | P1 | REVIEW | T3-10 | vitest export + print |
 | T4-01 | Server image validation | Codex | P1 | REVIEW | T2-10 | vitest image-validate |
 | T4-02 | Image prompt + OCR contract | Gemini | P1 | TODO | T1-02, T0-01 | vitest prompts |
 | T4-03 | Pipeline: screenshot path | Claude | P1 | REVIEW | T4-01, T4-02, T2-08 | vitest pipeline-image |
-| T4-04 | ScreenshotUploader + wiring | Codex | P1 | TODO | T3-05, T4-03 | manual journey D.3 |
+| T4-04 | ScreenshotUploader + wiring | Codex | P1 | REVIEW | T3-05, T4-03 | manual journey D.3 |
 | T4-05 | Screenshot test cases | Gemini | P1 | TODO | T4-02 | run-evals screenshots |
 | T5-01 | No-network & logging safety tests | Codex | P0 | REVIEW | T2-11 | vitest safety |
 | T5-02 | Adversarial injection evals | Gemini | P0 | TODO | T1-05 | run-evals adversarial |
@@ -114,6 +114,7 @@ Counts check: the dashboard numbers in §A must equal the number of rows with th
 | 2026-10-27 ~10:50 IST | Claude | Docs creation (pre-Phase 0) | `context/{Architecture,UI-registery,Plan,Progress-tracker,AGENTS}.md` | None (documentation only). Checked `date`, directory contents, `node -v`, `git --version` | Five planning docs written. **No application code. No model call made.** | Codex: T0-02 scaffold. Claude: T0-04 types. Gemini: T0-01 once H1 done |
 | 2026-10-27 ~11:00 IST | Claude | Track realignment | `context/{Architecture,UI-registery,Plan,Progress-tracker,AGENTS}.md` | None (documentation update). | Aligned project with DigitalOcean track: "Best Open-Source AI Project" using DigitalOcean GenAI Platform & open-weight models (Llama 3.3/3.1). | Gemini: T0-01 once DO credentials provided; Codex: T0-02 scaffold. |
 | 2026-10-27 11:25 IST | Claude (acting as implementer for Claude+Codex+Gemini task zones; user-directed) | T0-03, T0-04, T1-01..T1-04, T2-01..T2-11, T4-01, T4-03, T5-01, T6-01 (REVIEW); T0-01/T1-05 script written but BLOCKED | `Server_End/**` (new standalone Node/TypeScript backend: `src/{app,server}.ts`, `src/config`, `src/types`, `src/validation`, `src/security/**`, `src/ai/**`, `src/analysis/**`, `src/lib/logger.ts`; `tests/**`; `scripts/{verify-model,run-evals}.ts`; `evals/datasets/synthetic.jsonl`; `.env.example`; `.do/app.yaml`) | `cd Server_End && npx tsc --noEmit` → clean; `npx vitest run` → 11 files, 194 tests passed; `npx tsx scripts/run-evals.ts --offline` → 30 cases, 0 failed; real server started with `tsx src/server.ts` and exercised with curl (health, text analysis → High/deterministic_only, 415). `scripts/verify-model.ts` without a key exits 2 (verified honest refusal) | Backend implemented per Architecture contract with deviations listed in Architecture §13. **No live DigitalOcean GenAI call was made (no key in environment). Model IDs and `inference.do-ai.run` are unverified against the live API.** Single-agent implementation: the multi-agent ownership/review rules were not exercised; independent review still required before DONE | Human: provide `DO_GENAI_API_KEY` (H1) and run `npm run verify-model`. Reviewer: review Server_End. Next: frontend (T3-xx) |
+| 2026-10-27 11:50 IST | Claude (user-directed; implements frontend zone) | T3-01..T3-10 (REVIEW), T4-04 (REVIEW), T3-11 export (REVIEW) | `app/**`, `components/**`, `context/investigation-context.tsx`, `lib/**`, `tsconfig.json`, `package.json`, `.env.example` (root Next.js app; follows `UI-Reference/image.png`) | `npx tsc --noEmit` → clean; `npx eslint app components context lib` → clean; `next build` → 4 routes prerendered; headless-browser run against real `Server_End` (no API key): Bank KYC example → High risk, 7 evidence items, 7 highlights, no anchors to the analysed URL, EN→HI switch works, 0 console errors, 0 failed requests; 375px viewport: no horizontal overflow | Frontend implemented as single-page workspace (reference layout) + History (in-session) + Learn pages. Reference elements that would be fabricated (global scam stats, 92 score, trend charts, search, notifications, Dashboard/Resources/Settings) were intentionally NOT built. **Not verified:** live AI mode (no key), screenshot upload flow in a browser, keyboard-only pass, real-phone test, no automated frontend tests | Human: add API key to `Server_End/.env`; review UI; deploy |
 
 ---
 

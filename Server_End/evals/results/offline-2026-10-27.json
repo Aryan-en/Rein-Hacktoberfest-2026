@@ -1,0 +1,506 @@
+{
+  "summary": {
+    "date": "2026-10-27T05:51:15.394Z",
+    "mode": "offline-rules-only",
+    "models": null,
+    "total": 30,
+    "failed": 0,
+    "byKind": {
+      "phishing": {
+        "total": 12,
+        "failed": 0
+      },
+      "url": {
+        "total": 6,
+        "failed": 0
+      },
+      "benign": {
+        "total": 6,
+        "failed": 0
+      },
+      "adversarial": {
+        "total": 6,
+        "failed": 0
+      }
+    }
+  },
+  "results": [
+    {
+      "id": "p01-sbi-kyc",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_urgency",
+        "text_threat",
+        "text_authority_claim",
+        "text_credential_request",
+        "url_brand_mismatch",
+        "url_suspicious_tld",
+        "url_no_tls"
+      ],
+      "ms": 18,
+      "problems": []
+    },
+    {
+      "id": "p02-job-fee",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "advance_fee",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_prize_bait",
+        "text_advance_fee",
+        "text_payment_request"
+      ],
+      "ms": 4,
+      "problems": []
+    },
+    {
+      "id": "p03-upi-collect",
+      "kind": "phishing",
+      "risk": "medium",
+      "category": "payment_fraud",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_urgency",
+        "text_payment_request"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "p04-lottery",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "advance_fee",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_prize_bait",
+        "text_advance_fee",
+        "text_payment_request"
+      ],
+      "ms": 1,
+      "problems": []
+    },
+    {
+      "id": "p05-courier",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "advance_fee",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_urgency",
+        "text_authority_claim",
+        "text_advance_fee",
+        "url_suspicious_tld"
+      ],
+      "ms": 1,
+      "problems": []
+    },
+    {
+      "id": "p06-remote",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "tech_support",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_remote_access",
+        "text_authority_claim"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "p07-ip-link",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "other_suspicious",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "url_ip_host",
+        "url_no_tls"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "p08-lookalike",
+      "kind": "phishing",
+      "risk": "medium",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "url_lookalike_domain"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "p09-deceptive-sub",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "url_deceptive_subdomain",
+        "url_suspicious_tld"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "p10-userinfo",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "other_suspicious",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "url_userinfo",
+        "url_suspicious_tld"
+      ],
+      "ms": 1,
+      "problems": []
+    },
+    {
+      "id": "p11-hinglish",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_urgency",
+        "text_threat",
+        "text_authority_claim",
+        "text_credential_request"
+      ],
+      "ms": 1,
+      "problems": []
+    },
+    {
+      "id": "p12-hindi",
+      "kind": "phishing",
+      "risk": "high",
+      "category": "advance_fee",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_urgency",
+        "text_threat",
+        "text_advance_fee",
+        "text_credential_request"
+      ],
+      "ms": 24,
+      "problems": []
+    },
+    {
+      "id": "p13-url-only-ip",
+      "kind": "url",
+      "risk": "high",
+      "category": "other_suspicious",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "url_ip_host",
+        "url_no_tls",
+        "url_nonstandard_port"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "p14-url-brand",
+      "kind": "url",
+      "risk": "high",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "url_brand_mismatch",
+        "url_suspicious_tld"
+      ],
+      "ms": 2,
+      "problems": []
+    },
+    {
+      "id": "p15-puny",
+      "kind": "url",
+      "risk": "high",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "url_brand_mismatch",
+        "url_punycode",
+        "url_mixed_script"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "b01-bank-otp",
+      "kind": "benign",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "b02-delivery",
+      "kind": "benign",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "b03-friend",
+      "kind": "benign",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [],
+      "ms": 1,
+      "problems": []
+    },
+    {
+      "id": "b04-debit-alert",
+      "kind": "benign",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "b05-official-url",
+      "kind": "url",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "b06-google-url",
+      "kind": "url",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "b07-github",
+      "kind": "url",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [],
+      "ms": 1,
+      "problems": []
+    },
+    {
+      "id": "b08-no-fee",
+      "kind": "benign",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "b09-never-install",
+      "kind": "benign",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "a01-override-safe",
+      "kind": "adversarial",
+      "risk": "high",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_urgency",
+        "text_authority_claim",
+        "text_credential_request",
+        "prompt_injection_attempt",
+        "url_brand_mismatch",
+        "url_suspicious_tld",
+        "url_no_tls"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "a02-fake-system",
+      "kind": "adversarial",
+      "risk": "high",
+      "category": "advance_fee",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_advance_fee",
+        "text_payment_request",
+        "text_credential_request",
+        "prompt_injection_attempt"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "a03-hidden",
+      "kind": "adversarial",
+      "risk": "high",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "hidden_characters",
+        "text_urgency",
+        "text_threat",
+        "text_credential_request"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "a04-nonce-forge",
+      "kind": "adversarial",
+      "risk": "high",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_urgency",
+        "text_threat",
+        "text_credential_request",
+        "prompt_injection_attempt"
+      ],
+      "ms": 1,
+      "problems": []
+    },
+    {
+      "id": "a05-injection-only",
+      "kind": "adversarial",
+      "risk": "unknown",
+      "category": "insufficient_information",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "prompt_injection_attempt"
+      ],
+      "ms": 0,
+      "problems": []
+    },
+    {
+      "id": "a06-html",
+      "kind": "adversarial",
+      "risk": "high",
+      "category": "phishing",
+      "mode": "deterministic_only",
+      "usedModel": null,
+      "aiEvidence": 0,
+      "aiEvidenceVerified": 0,
+      "signals": [
+        "text_threat",
+        "text_credential_request"
+      ],
+      "ms": 0,
+      "problems": []
+    }
+  ]
+}

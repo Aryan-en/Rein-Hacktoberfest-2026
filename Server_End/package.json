@@ -1,0 +1,32 @@
+{
+  "name": "trustlens-server",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TrustLens AI backend: evidence-based scam & phishing investigation API",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:ai": "tsx scripts/verify-model.ts",
+    "verify-model": "tsx scripts/verify-model.ts",
+    "eval:offline": "tsx scripts/run-evals.ts --offline",
+    "eval:live": "tsx scripts/run-evals.ts",
+    "check": "tsc --noEmit && vitest run"
+  },
+  "dependencies": {
+    "openai": "^7.45.0",
+    "tldts": "^7.4.19",
+    "tsx": "^4.23.15",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  }
+}
