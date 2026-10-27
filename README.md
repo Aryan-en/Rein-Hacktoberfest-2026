@@ -39,7 +39,7 @@ An open-source, evidence-based scam and phishing investigation platform powered 
 4. [How an investigation works](#4-how-an-investigation-works)
 5. [Evidence you can trust (and evidence you shouldn't)](#5-evidence-you-can-trust-and-evidence-you-shouldnt)
 6. [Risk classification](#6-risk-classification)
-7. [Architecture](#7-architecture)
+7. [System design & architecture](#7-system-design--architecture)
 8. [How DigitalOcean Open-Weight AI is used](#8-how-digitalocean-open-weight-ai-is-used)
 9. [Technology stack](#9-technology-stack)
 10. [Getting started](#10-getting-started)
@@ -220,45 +220,226 @@ Full specification: [`context/Architecture.md` §6](context/Architecture.md).
 
 ---
 
-## 7. Architecture
+## 7. System Design & Architecture
+
+TrustLens AI is engineered to bridge a critical divide in scam detection: **high-level semantic reasoning** (understanding deceptive social engineering, urgency, emotional manipulation, and contextual brand spoofing) must be paired with **mathematical, deterministic guarantees** (preventing AI hallucinations, eliminating Server-Side Request Forgery, and resisting prompt injection attacks).
+
+The system adopts a **dual-tier, hybrid pipeline topology** combining a deterministic security engine with DigitalOcean GenAI serverless open-weight inference (`meta-llama/llama-3.3-70b-instruct` and `meta-llama/llama-3.1-8b-instruct`), governed by strict evidence-verification and risk-reconciliation logic.
+
+---
+
+### 7.1 High-Level System Topology
 
 ```mermaid
-flowchart LR
-  subgraph Browser
-    UI[Next.js UI<br/>Workspace + Report]
+flowchart TB
+  subgraph ClientTier["Client Tier (Browser / Next.js)"]
+    direction TB
+    UI["Modern Next.js 16 UI<br/>(React 19 · Tailwind CSS)"]
+    INPUT["Multi-Modal Workspace<br/>(Text · URL · Screenshot)"]
+    EXP["Client-Side Exporters<br/>(JSON · Markdown · Print/PDF)"]
+    UI --- INPUT
+    UI --- EXP
   end
-  subgraph Server["Next.js server (DigitalOcean App Platform)"]
-    API["POST /api/analyze<br/>GET /api/health"]
-    RL[Rate limiter + daily cap]
-    VAL[Zod validation + size limits]
-    NORM[Normalizer]
-    PIPE[Pipeline orchestrator]
-    SEC[Security engine<br/>URL + text signals]
-    AI[AI layer<br/>prompts · provider · fallback]
-    VER[Evidence verifier]
-    RISK[Risk classifier]
-    REP[Report assembler]
-  end
-  DO_AI[(DigitalOcean GenAI<br/>Open-Weight Models)]
 
-  UI -->|JSON| API
-  API --> RL --> VAL --> NORM --> PIPE
-  PIPE --> SEC
-  PIPE --> AI
-  AI -->|HTTPS, the only outbound call| DO_AI
-  PIPE --> VER --> RISK --> REP --> API
-  API -->|InvestigationReport| UI
+  subgraph GatewayTier["API Gateway & Transport Tier (Server_End Node.js Service)"]
+    direction TB
+    CORS["CORS Policy Filter<br/>(TRUSTLENS_CORS_ORIGINS)"]
+    RL["Sliding Window Rate Limiter<br/>(10 req/min · 500 req/day per IP)"]
+    STREAM["Streaming Request Parser<br/>(Strict Size Limits: 8KB text / 4MB image)"]
+    LOG["Allow-List Structured Logger<br/>(Zero User-Content Logging)"]
+    CORS --> RL --> STREAM --> LOG
+  end
+
+  subgraph PipelineCore["Investigation Pipeline Core"]
+    direction TB
+    NORM["Normalization Engine<br/>(NFKC · Zero-Width Stripping · BiDi Defenses)"]
+    
+    subgraph EngineSplit["Dual Engine Execution"]
+      direction LR
+      SEC["Deterministic Security Engine<br/>• URL Syntactic Forensics (tldts)<br/>• Brand Lookalike Matching<br/>• Deceptive Subdomains / Homoglyphs<br/>• Lexical Urgent/Threat Patterns"]
+      
+      AI_ORCH["DigitalOcean AI Orchestrator<br/>• Nonce Data-Fencing (Anti-Injection)<br/>• Prompt Assembly & JSON Constraints<br/>• Fallback Cascade & Timeout Controls<br/>• Automated 1-Shot Repair Retry"]
+    end
+
+    VER["Evidence Verifier<br/>(Exact Substring Quote Matching)"]
+    RECON["Risk Reconciliation Engine<br/>(Deterministic Floor vs. AI Effective)"]
+    REP["Report Assembler<br/>(Bilingual EN/HI Synthesis)"]
+
+    NORM --> EngineSplit
+    SEC --> RECON
+    AI_ORCH --> VER
+    VER --> RECON
+    RECON --> REP
+  end
+
+  subgraph DOGenAI["DigitalOcean GenAI Platform (Serverless Inference)"]
+    direction TB
+    PRIMARY["Primary Model:<br/>meta-llama/llama-3.3-70b-instruct"]
+    FALLBACK["Fallback Model:<br/>meta-llama/llama-3.1-8b-instruct"]
+    PRIMARY -.->|on timeout or failure| FALLBACK
+  end
+
+  %% Connections
+  INPUT ==>|HTTPS POST /api/analyze| CORS
+  LOG --> NORM
+  AI_ORCH <==>|HTTPS POST /v1/chat/completions<br/>(ONLY Outbound Network Call)| PRIMARY
+  REP ==>|200 OK InvestigationReport| UI
 ```
 
-Design principles
+> [!IMPORTANT]
+> **The Zero-SSRF / No-Browsing Boundary**: The TrustLens server makes **exactly one outbound network call**: an HTTPS request to the DigitalOcean GenAI serverless inference endpoint (`https://inference.do-ai.run/v1`). Submitted URLs are **never fetched, resolved, or probed via DNS**. All URL forensics are purely syntactic and offline.
 
-- **Stateless**: no database, no stored submissions, exports happen client-side.
-- **Deterministic first**: the rules engine runs before and independently of the model, so the product still works when AI is unavailable.
-- **One outbound call**: only the DigitalOcean GenAI API endpoint. Submitted URLs are never resolved or fetched.
-- **Provider abstraction**: a single `AiProvider` interface; one file imports the OpenAI-compatible SDK.
-- **Contracts as code**: shared TypeScript types and Zod schemas are the single source of truth for UI and API.
+---
 
-Details, ADRs, and the threat model live in [`context/Architecture.md`](context/Architecture.md).
+### 7.2 Subsystem Breakdown & Architecture Layers
+
+The architecture is partitioned into six decoupled subsystems:
+
+| # | Subsystem | Implementation Location | Core Responsibilities & Invariants |
+|---|---|---|---|
+| **1** | **Ingestion & Transport** | [`Server_End/src/server.ts`](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/Server_End/src/server.ts)<br/>[`Server_End/src/app.ts`](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/Server_End/src/app.ts) | • Node.js HTTP server (zero heavy frameworks, minimal footprint)<br/>• CORS validation against configurable origin allowlist (`TRUSTLENS_CORS_ORIGINS`)<br/>• Streaming chunked reader with strict abort-on-limit (8 KiB text, 4 MiB image)<br/>• Magic-byte verification for image formats (`image/png`, `image/jpeg`, `image/webp`)<br/>• Sliding-window IP rate limiting (10 req/min, 500 req/day per IP/proxy hop) |
+| **2** | **Normalization & Text Defense** | [`Server_End/src/security/normalize.ts`](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/Server_End/src/security/normalize.ts)<br/>`Server_End/src/security/text/` | • Unicode NFKC normalization to defeat visual spoofing & obfuscation<br/>• Strips zero-width characters (ZWSP, ZWNJ, ZWJ) and bidirectional overrides (RLO/LRO)<br/>• Preserves offset maps for faithful evidence highlighting<br/>• Context-aware lexical regex analyzers (e.g. distinguishing legitimate "never share OTP" from malicious "share your OTP") |
+| **3** | **Offline URL Forensics** | `Server_End/src/security/url/` | • Strict syntactic parsing via `WHATWG URL` & `tldts` (public suffix extraction)<br/>• Brand lookalike detection against a curated registry of 50+ banking, e-commerce, & telecom domains (e.g., `sbi.co.in`, `hdfcbank.com`, `paypal.com`)<br/>• Detects deceptive subdomain spoofing (e.g., `paypal.com.account-verify.xyz`)<br/>• Punycode & IDN homoglyph flagging (e.g., `xn--...` Cyrillic spoofing)<br/>• Direct IP-address host identification & known URL-shortener flagging |
+| **4** | **AI Orchestration & Fallback** | `Server_End/src/ai/`<br/>[`Server_End/src/ai/providers/digitalocean.ts`](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/Server_End/src/ai/providers/digitalocean.ts) | • Clean `AiProvider` interface abstraction; single OpenAI-compatible adapter<br/>• Cryptographic nonce-fencing (`<<<UNTRUSTED_CONTENT_nonce>>>`) to quarantine input<br/>• Automated fallback chain: `Llama 3.3 70B` → `Llama 3.1 8B` → `deterministic_only`<br/>• Configurable request timeouts with `AbortController` (default 12s)<br/>• Dual-mode JSON extraction: Native JSON mode + prompt-instructed JSON with 1-shot repair |
+| **5** | **Evidence Verifier & Risk Floor** | `Server_End/src/analysis/` | • Strict verbatim substring verification: any model finding without an exact match in the normalized input is flagged `unverified` and stripped of risk-escalation power<br/>• Computes non-negotiable **Deterministic Risk Floor** from heuristic signals<br/>• Reconciles final risk level: `finalRisk = max(deterministicFloor, aiEffective)`<br/>• Guarantees that AI hallucination or prompt injection can never lower risk |
+| **6** | **Presentation & Local Export** | Root `app/`, `src/components/` | • Next.js 16 App Router UI with responsive, dark-mode accessible design<br/>• Dynamic bilingual toggle (English / Hindi) with seamless zero-re-query switching<br/>• Inert URL rendering (plain text/copyable, zero live hyperlinking) to protect users<br/>• 100% Client-side export (Markdown, JSON, Print-to-PDF); zero database persistence |
+
+---
+
+### 7.3 Detailed End-to-End Sequence Flow
+
+The following sequence details how a request traverses validation, security forensics, AI orchestration with fallback handling, evidence verification, and response assembly:
+
+```mermaid
+sequenceDiagram
+  autonumber
+  actor User as End User
+  participant UI as Next.js Web Client
+  participant Server as Server_End (HTTP Service)
+  participant SecEng as Security Forensics Engine
+  participant Orch as AI Orchestrator
+  participant DO_Primary as DO GenAI: Llama 3.3 70B
+  participant DO_Fallback as DO GenAI: Llama 3.1 8B
+  participant Verifier as Evidence & Risk Reconciler
+
+  User->>UI: Submit text, suspicious URL, or screenshot
+  UI->>Server: POST /api/analyze (JSON payload)
+  
+  Note over Server: 1. Gatekeeping & Sanitization
+  Server->>Server: Verify Origin (CORS) & Check Rate Limits
+  Server->>Server: Stream body & enforce size caps (8KB text / 4MB image)
+  Server->>Server: Validate payload structure against Zod Request Schema
+  
+  Note over Server,SecEng: 2. Normalization & Forensics
+  Server->>SecEng: Normalize text (NFKC, strip zero-width & bidi)
+  SecEng->>SecEng: Parse URLs (tldts) & check brand registry / homoglyphs / IP hosts
+  SecEng->>SecEng: Extract lexical patterns (urgency, threats, credential requests)
+  SecEng-->>Server: Return deterministic Signals[] & UrlAnalysis[]
+  
+  Note over Server,Orch: 3. AI Orchestration with Nonce Fencing
+  Server->>Orch: Dispatch normalized text + signals as hints
+  Orch->>Orch: Generate cryptographic nonce delimiter & wrap untrusted text
+  
+  alt Primary Inference (Llama 3.3 70B)
+    Orch->>DO_Primary: POST /v1/chat/completions (timeout: 12s)
+    DO_Primary-->>Orch: 200 OK (Structured JSON response)
+  else Primary Fails / Times Out
+    Note over Orch,DO_Fallback: Fallback Activation
+    Orch->>DO_Fallback: POST /v1/chat/completions (timeout: 12s)
+    DO_Fallback-->>Orch: 200 OK (Structured JSON response)
+  else Both Models Fail
+    Note over Orch: Graceful Degradation
+    Orch-->>Server: ModelFailure (degraded_model_failed, rules-only mode)
+  end
+
+  alt Model Output Validation
+    Orch->>Orch: Parse JSON & validate against ModelFindingsSchema
+    opt Invalid JSON
+      Orch->>DO_Primary: 1-shot repair retry with error trace
+    end
+  end
+  Orch-->>Server: ModelFindings (techniques, quotes, bilingual rationale)
+
+  Note over Server,Verifier: 4. Evidence Verification & Risk Floor Reconciliation
+  Server->>Verifier: Reconcile ModelFindings with Source Text & Signals
+  Verifier->>Verifier: Exact substring match for each quoted evidence item
+  Verifier->>Verifier: Compute Deterministic Floor (High / Medium / Low / None)
+  Verifier->>Verifier: Reconcile: finalRisk = max(deterministicFloor, aiEffective)
+  Verifier-->>Server: Final Classification & Verified Evidence Items
+
+  Note over Server,UI: 5. Response Dispatch
+  Server-->>UI: 200 OK (InvestigationReport with model disclosure & timings)
+  UI->>User: Render interactive verdict, forensic cards & verified quotes
+```
+
+---
+
+### 7.4 Data Architecture & Contract Specifications
+
+TrustLens enforces end-to-end type safety between the frontend client and backend runtime. The core interfaces are defined in TypeScript:
+
+```
+┌────────────────────────────────────────────────────────┐
+│                   AnalyzeRequest                       │
+│  - inputType: "text" | "url" | "image"                 │
+│  - text? / url? / image? { mimeType, dataBase64 }      │
+│  - clientLanguage?: "en" | "hi"                        │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                   ModelFindings                        │
+│  - summary: { en: string, hi: string }                 │
+│  - modelRiskAssessment: "high" | "medium" | "low"      │
+│  - techniques: TechniqueIdentifier[]                   │
+│  - evidence: Array<{ quote: string, reasoning: {...} }>│
+│  - recommendations: { en: string[], hi: string[] }     │
+└───────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                InvestigationReport                     │
+│  - id: UUID (ephemeral)                                │
+│  - timestamp: ISO 8601                                 │
+│  - risk: { level: RiskLevel, rationale: BilingualText }│
+│  - deterministicFloor: RiskLevel                       │
+│  - signals: Signal[] (type, severity, rationale)       │
+│  - urlAnalyses: UrlAnalysis[] (forensic details)       │
+│  - evidence: EvidenceItem[] (quoteVerified: boolean)   │
+│  - model: ModelDisclosure (requested, used, fellBack)  │
+│  - performance: { durationMs, stages: TimingBreakdown }│
+└────────────────────────────────────────────────────────┘
+```
+
+#### Deterministic Risk Reconciliation Matrix
+
+The final risk assessment is deterministically governed by the following mathematical truth table:
+
+| Deterministic Signals Found | Deterministic Floor | Model Assessment | Verified Evidence Quotes | Final Reconciled Risk |
+|---|---|---|---|---|
+| ≥ 2 Strong signals (e.g. Brand Lookalike + Credential Grab) | **HIGH** | Any (or model down) | Any | **HIGH** *(AI cannot lower)* |
+| 1 Strong + ≥ 1 Weak signal | **HIGH** | Any (or model down) | Any | **HIGH** *(AI cannot lower)* |
+| 1 Strong signal (e.g. Lookalike Domain) | **MEDIUM** | Low / None | Any | **MEDIUM** *(AI cannot lower)* |
+| 1 Strong signal | **MEDIUM** | High | ≥ 1 Verified Quote | **HIGH** *(AI escalates with proof)* |
+| 0 Signals (Clean text/URL) | **NONE** | High | ≥ 1 Verified Quote | **HIGH** *(AI escalates with proof)* |
+| 0 Signals | **NONE** | High | 0 Verified Quotes | **MEDIUM** *(Capped: unverified claim)* |
+| 0 Signals | **NONE** | Medium | ≥ 1 Verified Quote | **MEDIUM** |
+| 0 Signals | **NONE** | Low / None | N/A | **LOW / NONE** |
+| 0 Signals | **NONE** | Model Failed / Timeout | N/A | **UNKNOWN** *(Transparent disclosure)* |
+
+---
+
+### 7.5 Architectural Principles & Decision Records
+
+The architecture is guided by 5 core engineering tenets recorded in our Architectural Decision Records (ADRs):
+
+1. **Deterministic Priority ([ADR-003](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/context/Architecture.md#L726))**: The heuristic engine executes prior to and completely independent of the AI model. If the AI service is unavailable, degraded, or times out, the user still receives an accurate, explainable forensic assessment.
+2. **Zero-SSRF Sandbox ([ADR-004](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/context/Architecture.md#L727))**: The server never touches, crawls, or resolves submitted URLs. Analysis is performed 100% syntactically through public suffix parsing, domain math, homoglyph evaluation, and pattern matching.
+3. **Stateless Privacy & Ephemerality ([ADR-002](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/context/Architecture.md#L725), [ADR-012](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/context/Architecture.md#L735))**: Zero database storage, zero cookie tracking, and zero log retention of submitted text. Structured server logs drop all payload data by schema. Report exports (Markdown, JSON, PDF) are generated in-memory on the client.
+4. **Open-Weight AI Sovereignty ([ADR-006](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/context/Architecture.md#L729))**: Uses open-weight models (`meta-llama/llama-3.3-70b-instruct` and `meta-llama/llama-3.1-8b-instruct`) hosted on DigitalOcean GenAI serverless infrastructure, guaranteeing reproducible, open-source AI lineage.
+5. **Verified Evidence Mandate ([ADR-007](file:///Users/aryansingh/Documents/Hacktoberfest2026/Rein-Hacktoberfest-2026/context/Architecture.md#L730))**: LLM findings cannot trigger high-severity classifications unless supported by exact, cryptographically verified verbatim substring quotes extracted from the user's submission.
+
+Details, full ADRs, and the formal threat model live in [`context/Architecture.md`](context/Architecture.md).
 
 ---
 
