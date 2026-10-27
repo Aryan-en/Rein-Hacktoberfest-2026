@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:server": "npm --prefix Server_End run dev",
+    "start:server": "npm --prefix Server_End run start",
+    "check:server": "npm --prefix Server_End run check",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
