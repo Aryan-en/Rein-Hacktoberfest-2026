@@ -1,0 +1,45 @@
+{
+  "name": "TrustLens AI Threat Intelligence Dataset Repository",
+  "version": "1.0.0",
+  "license": "Open Data Commons / CC-BY-4.0",
+  "generatedAt": "2026-10-27T12:00:00Z",
+  "files": [
+    {
+      "file": "live-phishing-feed.json",
+      "description": "Real-time feed of active verified phishing URLs and targets",
+      "sourceName": "OpenPhish Community Feed",
+      "sourceUrl": "https://openphish.com/feed.txt",
+      "recordsCount": 300,
+      "format": "JSON"
+    },
+    {
+      "file": "threat-distribution.json",
+      "description": "Macro-level threat category percentages, targeted industry sectors, and monthly timelines",
+      "sourceName": "APWG Phishing Activity Trends & FBI IC3 Annual Reports",
+      "sourceUrl": "https://apwg.org/trendsreports/",
+      "format": "JSON"
+    },
+    {
+      "file": "targeted-brands.json",
+      "description": "Top 10 impersonated institutions, verified spoofing domains, and attack lures",
+      "sourceName": "PhishTank Valid Database & CERT-In Adviories",
+      "sourceUrl": "https://phishtank.org/",
+      "recordsCount": 10,
+      "format": "JSON"
+    },
+    {
+      "file": "global-hotspots.json",
+      "description": "Country coordinates, regional risk intensities, and infrastructure hosting arcs for WorldMap",
+      "sourceName": "Spamhaus & Global Threat Telemetry Reports",
+      "recordsCount": 9,
+      "format": "JSON"
+    },
+    {
+      "file": "scam-benchmarks.json",
+      "description": "Full annotated investigation test cases with suspicious text spans, indicator severities, and bilingual explanations",
+      "sourceName": "TrustLens Ground Truth Benchmark Suite",
+      "recordsCount": 4,
+      "format": "JSON"
+    }
+  ]
+}

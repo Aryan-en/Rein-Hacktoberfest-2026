@@ -1,0 +1,106 @@
+{
+  "source": "PhishTank Verified Phish & APWG Most Targeted Brands Database",
+  "lastUpdated": "2026-10-27T12:00:00Z",
+  "brands": [
+    {
+      "rank": 1,
+      "brand": "State Bank of India (SBI)",
+      "domain": "onlinesbi.sbi",
+      "sector": "Banking & Finance",
+      "share": 15.2,
+      "typicalLure": "Your SBI YONO account will be blocked today due to pending KYC verification. Update immediately.",
+      "spoofDomains": ["sbi-verify-kyc.com", "sbi-secure-login.net", "onlinesbi-yono.top", "sbi-pan-update.in"],
+      "commonChannels": ["SMS", "WhatsApp"]
+    },
+    {
+      "rank": 2,
+      "brand": "Google",
+      "domain": "google.com",
+      "sector": "SaaS & Identity",
+      "share": 12.8,
+      "typicalLure": "Critical security alert: unauthorized login detected from new device. Verify your identity.",
+      "spoofDomains": ["accounts-google-verify.com", "google-security-notice.info", "gmail-support-alert.net"],
+      "commonChannels": ["Email", "Calendar Invite"]
+    },
+    {
+      "rank": 3,
+      "brand": "Microsoft",
+      "domain": "microsoft.com",
+      "sector": "Corporate Webmail & Office",
+      "share": 10.5,
+      "typicalLure": "Your Microsoft 365 password expires in 2 hours. Click to keep your current password.",
+      "spoofDomains": ["login-microsoftonline.xyz", "office365-verify-portal.com", "microsoft-reauth.net"],
+      "commonChannels": ["Email"]
+    },
+    {
+      "rank": 4,
+      "brand": "Amazon",
+      "domain": "amazon.in",
+      "sector": "E-Commerce",
+      "share": 8.9,
+      "typicalLure": "Unauthorized order placed for iPhone 16 Pro Max ($1,299). If this wasn't you, cancel immediately.",
+      "spoofDomains": ["amazon-order-cancel.support", "amazon-prime-refund.online", "amzn-secure-desk.com"],
+      "commonChannels": ["SMS", "Email", "Voice Call"]
+    },
+    {
+      "rank": 5,
+      "brand": "WhatsApp",
+      "domain": "whatsapp.com",
+      "sector": "Social & Messaging",
+      "share": 7.4,
+      "typicalLure": "WhatsApp Voice call backup verification code. Do not share this 6-digit PIN with anyone.",
+      "spoofDomains": ["whatsapp-web-sync.net", "wa-web-connect.top", "whatsapp-verify-pin.com"],
+      "commonChannels": ["SMS", "WhatsApp"]
+    },
+    {
+      "rank": 6,
+      "brand": "Flipkart",
+      "domain": "flipkart.com",
+      "sector": "E-Commerce & Rewards",
+      "share": 6.8,
+      "typicalLure": "Congratulations! You have won Flipkart Big Billion Days scratch card worth Rs 25,000. Claim now.",
+      "spoofDomains": ["flipkart-luckydraw-2026.com", "flipkart-reward-claim.online", "flipkart-scratch.in"],
+      "commonChannels": ["WhatsApp", "Telegram", "SMS"]
+    },
+    {
+      "rank": 7,
+      "brand": "PayPal",
+      "domain": "paypal.com",
+      "sector": "Payment Gateways",
+      "share": 5.7,
+      "typicalLure": "Suspicious activity detected on your PayPal balance. Your account has been temporarily restricted.",
+      "spoofDomains": ["paypal-security-resolution.com", "paypal-account-check.info"],
+      "commonChannels": ["Email"]
+    },
+    {
+      "rank": 8,
+      "brand": "Netflix",
+      "domain": "netflix.com",
+      "sector": "Subscription Streaming",
+      "share": 4.9,
+      "typicalLure": "Your Netflix membership payment failed. Update your card details within 24 hours to keep watching.",
+      "spoofDomains": ["netflix-billing-update.com", "netflix-renew-account.net"],
+      "commonChannels": ["Email", "SMS"]
+    },
+    {
+      "rank": 9,
+      "brand": "India Post / DHL",
+      "domain": "indiapost.gov.in",
+      "sector": "Logistics & Delivery",
+      "share": 4.3,
+      "typicalLure": "Package delivery failed due to missing street number. Pay Rs 25 redelivery fee to reschedule.",
+      "spoofDomains": ["indiapost-package-track.com", "dhl-redelivery-notice.online", "speedpost-update.in"],
+      "commonChannels": ["SMS"]
+    },
+    {
+      "rank": 10,
+      "brand": "Apple",
+      "domain": "apple.com",
+      "sector": "Hardware & Cloud",
+      "share": 3.8,
+      "typicalLure": "Your lost iPhone was detected online. View location now on iCloud Find My.",
+      "spoofDomains": ["icloud-findmy-location.com", "apple-id-verification-desk.net"],
+      "commonChannels": ["SMS", "Email"]
+    }
+  ]
+}

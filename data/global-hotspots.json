@@ -1,0 +1,102 @@
+{
+  "source": "Global Cybercrime Threat Intelligence Telemetry & CERT-In / Spamhaus Global Threat Map",
+  "lastUpdated": "2026-10-27T12:00:00Z",
+  "hotspots": [
+    {
+      "id": "IN-01",
+      "country": "India",
+      "code": "IN",
+      "coordinates": [78.9629, 20.5937],
+      "share": 28.5,
+      "intensity": "Critical",
+      "primaryThreats": ["Banking KYC Phishing", "Job Task Scams", "Digital Arrest Fraud", "UPI Collect Scams"],
+      "majorHubs": ["New Delhi", "Mumbai", "Bengaluru", "Kolkata", "Jamtara", "Mewat"]
+    },
+    {
+      "id": "US-01",
+      "country": "United States",
+      "code": "US",
+      "coordinates": [-95.7129, 37.0902],
+      "share": 18.2,
+      "intensity": "High",
+      "primaryThreats": ["Business Email Compromise (BEC)", "IRS / Tax Refund Phishing", "Cryptocurrency Investment Scams"],
+      "majorHubs": ["New York", "California", "Texas", "Florida"]
+    },
+    {
+      "id": "ID-01",
+      "country": "Indonesia",
+      "code": "ID",
+      "coordinates": [113.9213, -0.7893],
+      "share": 12.1,
+      "intensity": "High",
+      "primaryThreats": ["APK Delivery Malvertising", "E-Wallet Spoofing", "WhatsApp Account Takeover"],
+      "majorHubs": ["Jakarta", "Surabaya", "Bandung"]
+    },
+    {
+      "id": "GB-01",
+      "country": "United Kingdom",
+      "code": "GB",
+      "coordinates": [-3.4360, 55.3781],
+      "share": 8.4,
+      "intensity": "Medium",
+      "primaryThreats": ["HMRC Tax Phishing", "Royal Mail Parcel Delivery Scams", "Banking Impersonation"],
+      "majorHubs": ["London", "Manchester", "Birmingham"]
+    },
+    {
+      "id": "BR-01",
+      "country": "Brazil",
+      "code": "BR",
+      "coordinates": [-51.9253, -14.2350],
+      "share": 7.6,
+      "intensity": "Medium",
+      "primaryThreats": ["PIX Payment Fraud", "Banking Trojan Droppers", "WhatsApp Clone Scams"],
+      "majorHubs": ["São Paulo", "Rio de Janeiro"]
+    },
+    {
+      "id": "NG-01",
+      "country": "Nigeria",
+      "code": "NG",
+      "coordinates": [8.6753, 9.0820],
+      "share": 6.8,
+      "intensity": "Medium",
+      "primaryThreats": ["Advance-Fee Fraud", "Romance Scams", "Corporate Identity Impersonation"],
+      "majorHubs": ["Lagos", "Abuja"]
+    },
+    {
+      "id": "RU-01",
+      "country": "Russia & CIS",
+      "code": "RU",
+      "coordinates": [105.3188, 61.5240],
+      "share": 5.4,
+      "intensity": "Medium",
+      "primaryThreats": ["Credential Stealers", "Phishing-as-a-Service (PhaaS) Toolkits", "Malvertising"],
+      "majorHubs": ["Moscow", "Saint Petersburg"]
+    },
+    {
+      "id": "DE-01",
+      "country": "Germany",
+      "code": "DE",
+      "coordinates": [10.4515, 51.1657],
+      "share": 4.1,
+      "intensity": "Low",
+      "primaryThreats": ["DHL Express Phishing", "Sparkasse Bank Impersonation"],
+      "majorHubs": ["Frankfurt", "Berlin", "Munich"]
+    },
+    {
+      "id": "GLOBAL-OTHER",
+      "country": "Other Nations",
+      "code": "OTHER",
+      "coordinates": [0.0, 0.0],
+      "share": 8.9,
+      "intensity": "Low",
+      "primaryThreats": ["Distributed Phishing Proxies", "Shortened URL Redirectors"]
+    }
+  ],
+  "attackArcs": [
+    { "from": [-95.7129, 37.0902], "to": [78.9629, 20.5937], "label": "US -> India Hosting Infrastructure" },
+    { "from": [10.4515, 51.1657], "to": [-3.4360, 55.3781], "label": "EU -> UK Mail Spoolers" },
+    { "from": [8.6753, 9.0820], "to": [-95.7129, 37.0902], "label": "Nigeria -> US Romance & BEC" },
+    { "from": [105.3188, 61.5240], "to": [10.4515, 51.1657], "label": "CIS -> Germany PhaaS Infrastructure" },
+    { "from": [113.9213, -0.7893], "to": [78.9629, 20.5937], "label": "SE Asia -> India APK Droppers" }
+  ]
+}

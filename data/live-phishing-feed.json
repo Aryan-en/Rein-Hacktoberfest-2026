@@ -1,0 +1,707 @@
+{
+  "source": "OpenPhish Community Feed",
+  "fetchedAt": "2026-10-27T07:00:12.055Z",
+  "count": 100,
+  "items": [
+    {
+      "id": "op-1",
+      "url": "https://www.roblox.com.et/users/4243002378/profile",
+      "host": "www.roblox.com.et",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.043Z"
+    },
+    {
+      "id": "op-2",
+      "url": "http://bofa-login.vercel.app/",
+      "host": "bofa-login.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-3",
+      "url": "https://chatgpt0005.eu.org/blog/discord-patch-notes-february-4-2026/",
+      "host": "chatgpt0005.eu.org",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-4",
+      "url": "https://chatgpt0005.eu.org/blog/save-and-display-your-faves-add-discord-shop-marvel-rivals-items-to-your-profiles-wishlist/",
+      "host": "chatgpt0005.eu.org",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-5",
+      "url": "https://chatgpt0005.eu.org/blog/discord-is-now-on-meta-quest-reach-out-to-your-servers-while-in-vr/",
+      "host": "chatgpt0005.eu.org",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-6",
+      "url": "https://chatgpt0005.eu.org/blog/discord-update-december-13-2023-changelog/",
+      "host": "chatgpt0005.eu.org",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-7",
+      "url": "https://chatgpt0005.eu.org/category/community/",
+      "host": "chatgpt0005.eu.org",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-8",
+      "url": "https://www.it-supportdesk.com/signin?t=eyJhbGciOiJIUzI1NiJ9.eyJ0cmFja2luZ190b2tlbiI6ImJhNDFiOWE1LTUxMDgtNDhhZC1hN2YzLTZhNjRkNTUxNDI4OCIsImNlbGwiOiJodHRwczovLzIxZzZqZnZoeTYuZXhlY3V0ZS1hcGkudXMtZWFzdC0yLmFtYXpvbmF3cy5jb20vcHJvZC9hcGkvcGhpc2hpbmdjYW1wYWlnbiIsImNhbXBhaWduX3Rva2VuIjoiNWZmNTE3ZTItNWI4NS00ZjU3LTk4ODYtY2UwMzAzZTBiNzlhIiwidGVzdF90b2tlbiI6ZmFsc2UsImV4dGVybmFsX3RyYWluaW5nIjpmYWxzZSwiZGlyZWN0X2RlbGl2ZXJ5Ijp0cnVlLCJpYXQiOjE3OTI5NDUzMjYsImlzcyI6Imh0dHBzOi8vYXBwLnBoaXNodGhyZWF0LmNvbSIsImV4cCI6MTgwMDcyMTMyNn0.ZjE0oQrgVuD_L_gTWb-i1UIT1dFmj2B1X3BuZ2dXeUw",
+      "host": "www.it-supportdesk.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-9",
+      "url": "https://www.id-cms.work/verify/xug2eay6d3ompbaha",
+      "host": "www.id-cms.work",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-10",
+      "url": "https://www.id-cms.work/",
+      "host": "www.id-cms.work",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-11",
+      "url": "https://www.roblox.et/users/6765120257/profile",
+      "host": "www.roblox.et",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-12",
+      "url": "https://comptecaweb-001-site1.ktempurl.com/Agris-Webconnexions/",
+      "host": "comptecaweb-001-site1.ktempurl.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-13",
+      "url": "http://www.mlnk.vn/asuar/",
+      "host": "www.mlnk.vn",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-14",
+      "url": "https://statelawfirm.weupdaa.workers.dev/",
+      "host": "statelawfirm.weupdaa.workers.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-15",
+      "url": "https://1url.at/www/robloxuser-951099195-profile",
+      "host": "1url.at",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.052Z"
+    },
+    {
+      "id": "op-16",
+      "url": "http://pub-cf8243e496b946db82fa4374d900d030.r2.dev/30064354gs4.html",
+      "host": "pub-cf8243e496b946db82fa4374d900d030.r2.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-17",
+      "url": "https://www.roblox.com.et/users/4486801085/profile",
+      "host": "www.roblox.com.et",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-18",
+      "url": "https://1kak1anzas.pages.dev/",
+      "host": "1kak1anzas.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-19",
+      "url": "https://amuento-3278--aumento35.replit.app/",
+      "host": "amuento-3278--aumento35.replit.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-20",
+      "url": "https://confrmpges-pgesacct.github.io/",
+      "host": "confrmpges-pgesacct.github.io",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-21",
+      "url": "https://ajeetkumaryadav565-hue.github.io/Netflix-clone/",
+      "host": "ajeetkumaryadav565-hue.github.io",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-22",
+      "url": "https://www.16156655.com/m/",
+      "host": "www.16156655.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-23",
+      "url": "https://idporten-norge.vercel.app/page4.html",
+      "host": "idporten-norge.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-24",
+      "url": "https://idporten-norge.vercel.app/page1.7.html",
+      "host": "idporten-norge.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-25",
+      "url": "https://whitliongecuadorera--ecuadorsurgee.replit.app/",
+      "host": "whitliongecuadorera--ecuadorsurgee.replit.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-26",
+      "url": "https://start-ldgercom-faq.typedream.app/",
+      "host": "start-ldgercom-faq.typedream.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-27",
+      "url": "https://idporten-norge.vercel.app/page3.html",
+      "host": "idporten-norge.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-28",
+      "url": "https://idporten-norge.vercel.app/page2.html",
+      "host": "idporten-norge.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-29",
+      "url": "https://idporten-norge.vercel.app/page1.5.html",
+      "host": "idporten-norge.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-30",
+      "url": "https://idporten-norge.vercel.app/page3.5.html",
+      "host": "idporten-norge.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-31",
+      "url": "https://mayank-kumar-2006.github.io/Netflix-clone/",
+      "host": "mayank-kumar-2006.github.io",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-32",
+      "url": "https://scmetaaaaa.vercel.app/index1.html",
+      "host": "scmetaaaaa.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-33",
+      "url": "https://1zy3cp.dt68-vn.net/",
+      "host": "1zy3cp.dt68-vn.net",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-34",
+      "url": "http://www.robiox.com.tw/users/2076255335/profile/",
+      "host": "www.robiox.com.tw",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-35",
+      "url": "https://bancolombbia.vercel.app/",
+      "host": "bancolombbia.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-36",
+      "url": "https://www.r.oblox.com.et/users/6525325044/profile",
+      "host": "www.r.oblox.com.et",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-37",
+      "url": "http://ep-02cdn7pyyiawnb-hchudpbkb3c2hugy.z01.azurefd.net/",
+      "host": "ep-02cdn7pyyiawnb-hchudpbkb3c2hugy.z01.azurefd.net",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-38",
+      "url": "https://bitly.cx/pkIb/",
+      "host": "bitly.cx",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.053Z"
+    },
+    {
+      "id": "op-39",
+      "url": "https://www.robiox.com.tw/games/8304191830/april-fool-s-anime-adventures?privateServerLinkCode=67189261356885495220033690412960",
+      "host": "www.robiox.com.tw",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-40",
+      "url": "http://restorefunction-aus3-2j3h9d.web.app/",
+      "host": "restorefunction-aus3-2j3h9d.web.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-41",
+      "url": "https://zingy-rabanadas-e6105f.netlify.app/download-invoice.netlify.app/index.html",
+      "host": "zingy-rabanadas-e6105f.netlify.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-42",
+      "url": "http://zingy-rabanadas-e6105f.netlify.app/",
+      "host": "zingy-rabanadas-e6105f.netlify.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-43",
+      "url": "http://www.okta.everydaycollectivecom.io/",
+      "host": "www.okta.everydaycollectivecom.io",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-44",
+      "url": "https://valenciawilberdingromero.weupdaa.workers.dev/",
+      "host": "valenciawilberdingromero.weupdaa.workers.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-45",
+      "url": "https://usps-for-business-website-2-1.vercel.app/",
+      "host": "usps-for-business-website-2-1.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-46",
+      "url": "http://tokevim-cdn32-hk61.lol/",
+      "host": "tokevim-cdn32-hk61.lol",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-47",
+      "url": "https://kxtrn8fdran-yrpknlpw-3p6n8d-yr288a.pages.dev/",
+      "host": "kxtrn8fdran-yrpknlpw-3p6n8d-yr288a.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-48",
+      "url": "http://sp30ct-qorik-biz-vanel-zumad.pages.dev/",
+      "host": "sp30ct-qorik-biz-vanel-zumad.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-49",
+      "url": "http://xc07t-qxf4-kxh-pqj3j-bvkzi.pages.dev/",
+      "host": "xc07t-qxf4-kxh-pqj3j-bvkzi.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-50",
+      "url": "https://sp30ct-kalun-biz-vorex-zemik.pages.dev/",
+      "host": "sp30ct-kalun-biz-vorex-zemik.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-51",
+      "url": "http://sp30ct-vurik-biz-mavel-zanoq.pages.dev/",
+      "host": "sp30ct-vurik-biz-mavel-zanoq.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-52",
+      "url": "http://sp29ct-tavro-biz-kemti-zulfa.pages.dev/",
+      "host": "sp29ct-tavro-biz-kemti-zulfa.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-53",
+      "url": "http://hlgf451lkwg-zktp2pli-9or85d-hlg77c.pages.dev/",
+      "host": "hlgf451lkwg-zktp2pli-9or85d-hlg77c.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-54",
+      "url": "https://sp30ct-tavor-biz-zunel-mekix.pages.dev/",
+      "host": "sp30ct-tavor-biz-zunel-mekix.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-55",
+      "url": "https://sp29ct-vurro-biz-kemun-fazti.pages.dev/",
+      "host": "sp29ct-vurro-biz-kemun-fazti.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-56",
+      "url": "https://sp30ct-turev-biz-qalun-mexok.pages.dev/",
+      "host": "sp30ct-turev-biz-qalun-mexok.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-57",
+      "url": "http://9avv4-qlih-e7na6-eus7-qjjv67.pages.dev/",
+      "host": "9avv4-qlih-e7na6-eus7-qjjv67.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-58",
+      "url": "https://sp30ct-mavel-biz-qurix-denok.pages.dev/",
+      "host": "sp30ct-mavel-biz-qurix-denok.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-59",
+      "url": "http://0jcql-vl8-9bh9-8a9i-umcy.pages.dev/",
+      "host": "0jcql-vl8-9bh9-8a9i-umcy.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-60",
+      "url": "http://4teh-hcp-c7xj-32qw-1nx5-3qiv.pages.dev/",
+      "host": "4teh-hcp-c7xj-32qw-1nx5-3qiv.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-61",
+      "url": "http://sp30ct-talik-biz-murex-vokon.pages.dev/",
+      "host": "sp30ct-talik-biz-murex-vokon.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-62",
+      "url": "https://ywsd73bpzgo-qbxj5lsi-7r6p4b-ywsq66c.pages.dev/",
+      "host": "ywsd73bpzgo-qbxj5lsi-7r6p4b-ywsq66c.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-63",
+      "url": "http://7kn7v7-3vl-yqx-97hi6-knj.pages.dev/",
+      "host": "7kn7v7-3vl-yqx-97hi6-knj.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-64",
+      "url": "http://mbtzp625nhw-fsgcyfyn-8t3s5g-qw166a24f.pages.dev/",
+      "host": "mbtzp625nhw-fsgcyfyn-8t3s5g-qw166a24f.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-65",
+      "url": "https://7atjlc-blga02-axtt-3tki-4gr.pages.dev/",
+      "host": "7atjlc-blga02-axtt-3tki-4gr.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-66",
+      "url": "http://sp30ct-vadex-biz-qanik-rumol.pages.dev/",
+      "host": "sp30ct-vadex-biz-qanik-rumol.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-67",
+      "url": "http://portaldigital-br.com/login/?ninja=consulteagora",
+      "host": "portaldigital-br.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-68",
+      "url": "https://survey-fai80fkrjlrp.organellee.com/kurier/index.php",
+      "host": "survey-fai80fkrjlrp.organellee.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-69",
+      "url": "https://workonc.top/kkk/?pixel=1878409809854532&ef=1",
+      "host": "workonc.top",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-70",
+      "url": "https://473621.com/",
+      "host": "473621.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-71",
+      "url": "https://www.iclreg.pro/verify/qa2rwvpsni113iprbfw5",
+      "host": "www.iclreg.pro",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-72",
+      "url": "http://iclreg.pro/",
+      "host": "iclreg.pro",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.054Z"
+    },
+    {
+      "id": "op-73",
+      "url": "https://br1.spabcb.shop/brgtm/?pixel=1878409809854532&ef=1",
+      "host": "br1.spabcb.shop",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-74",
+      "url": "https://www.twh081.vercel.app/",
+      "host": "www.twh081.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-75",
+      "url": "https://workond.top/kkk/?pixel=2321424635364697",
+      "host": "workond.top",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-76",
+      "url": "https://panmxwk.shop/kkk/?pixel=2321424635364697",
+      "host": "panmxwk.shop",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-77",
+      "url": "https://br3.mlmldd.top/brgtm/?pixel=2321424635364697",
+      "host": "br3.mlmldd.top",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-78",
+      "url": "https://87364093.edgeone.cool/?454a304321fd8d650db",
+      "host": "87364093.edgeone.cool",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-79",
+      "url": "http://everydaycollectivecom.io/",
+      "host": "everydaycollectivecom.io",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-80",
+      "url": "http://rajasthanstone.co.in/globalsource.com/BUYERSTATUS/inquiry/products/login.globalsource.com/html",
+      "host": "rajasthanstone.co.in",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-81",
+      "url": "https://2610frlan-7lm57dkm.4everland.app/",
+      "host": "2610frlan-7lm57dkm.4everland.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-82",
+      "url": "https://themvptriallawyers.weupdaa.workers.dev/",
+      "host": "themvptriallawyers.weupdaa.workers.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-83",
+      "url": "https://hhnbggh.jimdofree.com/",
+      "host": "hhnbggh.jimdofree.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-84",
+      "url": "https://eyeearhospital.com/bnd/index.html",
+      "host": "eyeearhospital.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-85",
+      "url": "https://moonpay-commerce-git-fix-com2-4528-heliofi.vercel.app/",
+      "host": "moonpay-commerce-git-fix-com2-4528-heliofi.vercel.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-86",
+      "url": "https://135461223.site/fi/2309/59af7665-3b57-441b-b825-17649f1cc7ba/763264/x",
+      "host": "135461223.site",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-87",
+      "url": "https://135461223.site/2309/59af7665-3b57-441b-b825-17649f1cc7ba/763264",
+      "host": "135461223.site",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-88",
+      "url": "https://135461223.site/fi/2309/59af7665-3b57-441b-b825-17649f1cc7ba/763264",
+      "host": "135461223.site",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-89",
+      "url": "https://obterrdescontoss-app.com/produto/1307962",
+      "host": "obterrdescontoss-app.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-90",
+      "url": "https://bretil.netlify.app/",
+      "host": "bretil.netlify.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-91",
+      "url": "https://bdvonline-registrate--ppsickkke.replit.app/",
+      "host": "bdvonline-registrate--ppsickkke.replit.app",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-92",
+      "url": "https://anjalinishad133.github.io/Netflix-clone/",
+      "host": "anjalinishad133.github.io",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-93",
+      "url": "https://cnfrmaccs-home0log.github.io/",
+      "host": "cnfrmaccs-home0log.github.io",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-94",
+      "url": "https://web.mobileatticms.com/b4638c9dccaab",
+      "host": "web.mobileatticms.com",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-95",
+      "url": "http://sp30ct10-zelvemi-biz-zunaro-7f2.pages.dev/",
+      "host": "sp30ct10-zelvemi-biz-zunaro-7f2.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-96",
+      "url": "https://robloxc.com.es/users/951099436/profile",
+      "host": "robloxc.com.es",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-97",
+      "url": "http://sp28ct-davem-biz-zunul-vitek.pages.dev/",
+      "host": "sp28ct-davem-biz-zunul-vitek.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-98",
+      "url": "https://lhmlpj-a4k9a-mhh14-sszbh.pages.dev/",
+      "host": "lhmlpj-a4k9a-mhh14-sszbh.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-99",
+      "url": "http://5ly-8ryff9-y2hedo-lh0l-xeq4c2.pages.dev/",
+      "host": "5ly-8ryff9-y2hedo-lh0l-xeq4c2.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    },
+    {
+      "id": "op-100",
+      "url": "http://sp30ct10-norlevo-biz-zuneti.pages.dev/",
+      "host": "sp30ct10-norlevo-biz-zuneti.pages.dev",
+      "source": "OpenPhish Live Community Feed",
+      "detectedAt": "2026-10-27T07:00:12.055Z"
+    }
+  ]
+}

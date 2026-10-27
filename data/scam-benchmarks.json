@@ -1,0 +1,69 @@
+{
+  "source": "Curated Cyber Crime Threat Benchmark Cases (CERT-In, FTC, and Real Phishing Telemetry)",
+  "cases": [
+    {
+      "id": "case-sbi-kyc",
+      "type": "text",
+      "category": "phishing",
+      "risk": "high",
+      "riskScore": 92,
+      "title": "SBI Account Suspension & KYC Threat",
+      "input": "Dear Customer, Your SBI account 4821 will be blocked today within 30 minutes due to unverified PAN KYC. Click immediately to update: https://sbi-verify-secure.com/pan-kyc",
+      "indicators": [
+        { "id": "urgency_threat", "severity": "strong", "phrase": "will be blocked today within 30 minutes" },
+        { "id": "lookalike_domain", "severity": "strong", "phrase": "sbi-verify-secure.com" },
+        { "id": "credential_request", "severity": "strong", "phrase": "update: https://sbi-verify-secure.com/pan-kyc" }
+      ],
+      "explanationEn": "High-confidence banking phishing lure mimicking State Bank of India. Uses extreme artificial urgency (30-minute block deadline) and an unauthorized domain to steal net banking credentials and OTPs.",
+      "explanationHi": "भारतीय स्टेट बैंक (SBI) के नाम पर उच्च-जोखिम वाली फ़िशिंग। इसमें 30 मिनट में खाता बंद होने की झूठी धमकी देकर अनधिकृत लिंक पर नेट बैंकिंग पासवर्ड व OTP चुराने का प्रयास किया गया है।"
+    },
+    {
+      "id": "case-telegram-job",
+      "type": "text",
+      "category": "job_scam",
+      "risk": "high",
+      "riskScore": 88,
+      "title": "Part-Time YouTube Like / Hotel Review Task Scam",
+      "input": "Hello! I am Sarah from HR Global Solutions. We have freelance part-time openings. Earn Rs 3,500 to 8,000 daily just by liking YouTube videos and rating Google Maps hotels. No experience required. Message on Telegram @HR_Sarah_Jobs now for instant Rs 500 joining bonus.",
+      "indicators": [
+        { "id": "unrealistic_compensation", "severity": "strong", "phrase": "Earn Rs 3,500 to 8,000 daily just by liking YouTube videos" },
+        { "id": "telegram_redirection", "severity": "strong", "phrase": "Message on Telegram @HR_Sarah_Jobs" },
+        { "id": "upfront_bonus_lure", "severity": "weak", "phrase": "instant Rs 500 joining bonus" }
+      ],
+      "explanationEn": "Classic prepaid task fraud. Victims are initially paid minor amounts for simple social media tasks, then coerced into depositing large sums under the guise of 'cryptocurrency trading tasks' or 'security deposits'.",
+      "explanationHi": "प्रिपेड टास्क व नौकरी ठगी। शुरुआत में लाइक करने पर छोटे पैसे दिए जाते हैं, फिर 'क्रिप्टो टास्क' या 'सिक्योरिटी मनी' के नाम पर लाखों रुपये की ठगी की जाती है।"
+    },
+    {
+      "id": "case-package-delivery",
+      "type": "text",
+      "category": "payment_fraud",
+      "risk": "high",
+      "riskScore": 84,
+      "title": "Failed Delivery & Redelivery Fee Phishing",
+      "input": "India Post Notification: Your parcel #IN98412847 cannot be delivered because your apartment house number is missing. Please update your address and pay Rs 25 redelivery fee at https://indiapost-redelivery.org/track within 24h or it will be returned to sender.",
+      "indicators": [
+        { "id": "delivery_lookalike", "severity": "strong", "phrase": "https://indiapost-redelivery.org/track" },
+        { "id": "micro_payment_trap", "severity": "strong", "phrase": "pay Rs 25 redelivery fee" },
+        { "id": "artificial_deadline", "severity": "weak", "phrase": "within 24h or it will be returned to sender" }
+      ],
+      "explanationEn": "Smishing tactic disguised as postal delivery. The nominal Rs 25 fee is designed to capture debit/credit card numbers and CVV codes on a fake payment gateway.",
+      "explanationHi": "डाक पार्सल के नाम पर ठगी। केवल 25 रुपये के दोबारा डिलीवरी शुल्क का झांसा देकर नकली पेमेंट पेज पर आपके डेबिट कार्ड नंबर और CVV चुराए जाते हैं।"
+    },
+    {
+      "id": "case-digital-arrest",
+      "type": "text",
+      "category": "impersonation",
+      "risk": "high",
+      "riskScore": 95,
+      "title": "Digital Arrest & Police / Customs Impersonation",
+      "input": "URGENT NOTICE: A parcel containing illegal narcotics and 5 fake passports sent from Mumbai to Cambodia in your name has been seized by CBI and Customs. Arrest warrant #CBI-2026-8812 has been issued. Remain in digital arrest on Skype/WhatsApp video call for identity clearance.",
+      "indicators": [
+        { "id": "authority_intimidation", "severity": "strong", "phrase": "seized by CBI and Customs. Arrest warrant #CBI-2026-8812" },
+        { "id": "digital_arrest_coercion", "severity": "strong", "phrase": "Remain in digital arrest on Skype/WhatsApp video call" },
+        { "id": "fear_induction", "severity": "strong", "phrase": "illegal narcotics and 5 fake passports" }
+      ],
+      "explanationEn": "Digital Arrest extortion scam. Law enforcement agencies in India or globally never conduct arrests or investigations via Skype or WhatsApp video calls, nor do they demand fund transfers for verification.",
+      "explanationHi": "डिजिटल अरेस्ट ब्लैकमेल। पुलिस, सीबीआई या कस्टम्स कभी भी व्हाट्सएप या स्काइप वीडियो कॉल पर 'डिजिटल अरेस्ट' नहीं करते और न ही खातों की जाँच के लिए पैसे ट्रांसफर करने को कहते हैं।"
+    }
+  ]
+}

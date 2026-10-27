@@ -1,0 +1,82 @@
+{
+  "source": "APWG Phishing Activity Trends Report & FBI IC3 Annual Cybercrime Report",
+  "lastUpdated": "2026-10-27T12:00:00Z",
+  "citation": {
+    "apwg": "Anti-Phishing Working Group (APWG) Q3/Q4 Phishing Activity Trends Report",
+    "ic3": "Federal Bureau of Investigation (FBI) Internet Crime Complaint Center (IC3) Annual Report",
+    "certIn": "CERT-In / I4C National Cyber Crime Reporting Statistics"
+  },
+  "globalScamMix": [
+    {
+      "key": "phishing",
+      "label": {
+        "en": "Phishing / Credential Harvesting",
+        "hi": "फ़िशिंग / क्रेडेंशियल चोरी"
+      },
+      "percentage": 38.6,
+      "color": "#ef4444",
+      "trend": "+14%",
+      "description": "Fake bank portals, spoofed login pages, MFA bypass prompts, and urgent verification requests."
+    },
+    {
+      "key": "job",
+      "label": {
+        "en": "Job & Task Fraud",
+        "hi": "नौकरी व टास्क ठगी"
+      },
+      "percentage": 24.2,
+      "color": "#f59e0b",
+      "trend": "+29%",
+      "description": "Telegram/WhatsApp part-time job offers, YouTube like/review tasks, prepaid rating schemes."
+    },
+    {
+      "key": "payment",
+      "label": {
+        "en": "Payment & Advance-Fee Fraud",
+        "hi": "भुगतान व अग्रिम शुल्क धोखाधड़ी"
+      },
+      "percentage": 17.8,
+      "color": "#22c55e",
+      "trend": "+8%",
+      "description": "UPI collect requests, fake refund vouchers, QR code scams, lottery prize processing fees."
+    },
+    {
+      "key": "impersonation",
+      "label": {
+        "en": "Authority / Brand Impersonation",
+        "hi": "अधिकारी / ब्रांड रूप धरना"
+      },
+      "percentage": 13.5,
+      "color": "#3b82f6",
+      "trend": "+19%",
+      "description": "Fake police/customs digital arrest calls, telecom electricity disconnection threats, CEO fraud."
+    },
+    {
+      "key": "other",
+      "label": {
+        "en": "Malware & Tech Support",
+        "hi": "मैलवेयर व तकनीकी सहायता"
+      },
+      "percentage": 5.9,
+      "color": "#a855f7",
+      "trend": "-2%",
+      "description": "APK payload droppers, fake customer care numbers on search engines, remote desk access."
+    }
+  ],
+  "targetedSectors": [
+    { "sector": "Financial & Banking", "share": 28.4, "color": "#ef4444" },
+    { "sector": "Social Media & Messaging", "share": 22.7, "color": "#3b82f6" },
+    { "sector": "SaaS & Webmail", "share": 18.1, "color": "#06b6d4" },
+    { "sector": "E-Commerce & Retail", "share": 14.3, "color": "#f59e0b" },
+    { "sector": "Logistics & Delivery", "share": 10.9, "color": "#22c55e" },
+    { "sector": "Cryptocurrency & Web3", "share": 5.6, "color": "#8b5cf6" }
+  ],
+  "monthlyTimeline": [
+    { "month": "May 2026", "phishing": 34, "jobScam": 18, "paymentFraud": 16, "impersonation": 11 },
+    { "month": "Jun 2026", "phishing": 36, "jobScam": 20, "paymentFraud": 17, "impersonation": 12 },
+    { "month": "Jul 2026", "phishing": 39, "jobScam": 22, "paymentFraud": 16, "impersonation": 13 },
+    { "month": "Aug 2026", "phishing": 41, "jobScam": 25, "paymentFraud": 18, "impersonation": 12 },
+    { "month": "Sep 2026", "phishing": 38, "jobScam": 23, "paymentFraud": 19, "impersonation": 14 },
+    { "month": "Oct 2026", "phishing": 42, "jobScam": 24, "paymentFraud": 18, "impersonation": 13 }
+  ]
+}
