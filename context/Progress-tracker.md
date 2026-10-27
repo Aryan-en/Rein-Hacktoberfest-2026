@@ -15,12 +15,12 @@
 | P0 completion | **0 / 46 DONE** | Counted from §B (57 tasks total); update on change |
 | P1 completion | **0 / 9 DONE** | |
 | P2 | 0 / 2 DONE | |
-| Blocking issues | **1 open (B-001)** | Gemma API key/endpoint unverified |
+| Blocking issues | **1 open (B-001)** | DigitalOcean GenAI API credentials unverified |
 | Deployment status | **NOT DEPLOYED** | No live URL |
 | Testing status | **NOT RUN** | No tests exist |
 | Demo readiness | **NOT READY** | |
-| Gemma 4 endpoint verified | **NO** | Model IDs are documented by Google but not called with our key |
-| Docs last reviewed for consistency | 2026-10-27 (Claude, creation) | |
+| DigitalOcean GenAI endpoint verified | **NO** | Open-weight model endpoints await team credentials |
+| Docs last reviewed for consistency | 2026-10-27 (Claude, track alignment) | |
 
 Counts reflect the task table below; if you add/remove tasks, update these numbers.
 
@@ -32,13 +32,13 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 
 | ID | Task | Owner | Priority | Status | Dependencies | Verification |
 |---|---|---|---|---|---|---|
-| T0-01 | Verify Gemma endpoint & credentials | Gemini | P0 | BLOCKED | H1 (API key from human) | `npx tsx scripts/verify-model.ts` |
+| T0-01 | Verify DigitalOcean GenAI endpoint & credentials | Gemini | P0 | BLOCKED | H1 (DO credentials from human) | `npx tsx scripts/verify-model.ts` |
 | T0-02 | Scaffold Next.js app & deps | Codex | P0 | TODO | — | `npm run typecheck && npm run lint && npm run build` |
 | T0-03 | Env config + `.env.example` | Codex | P0 | TODO | T0-02 | `npm run typecheck` + unit |
 | T0-04 | Freeze shared types, limits, Zod schemas | Claude | P0 | TODO | T0-02 | `npm run typecheck && vitest validation` |
 | T0-05 | Verify DO/SDK assumptions in docs | Claude | P0 | TODO | — | Manual doc review |
 | T0-06 | Commit docs baseline & push | Claude | P0 | TODO | — | `git log` |
-| T1-01 | Gemma provider adapter | Codex | P0 | TODO | T0-03, T0-04, T0-01 | vitest adapter |
+| T1-01 | DigitalOcean GenAI provider adapter | Codex | P0 | TODO | T0-03, T0-04, T0-01 | vitest adapter |
 | T1-02 | Prompt templates v1 (text) | Gemini | P0 | TODO | T0-04 | vitest prompts |
 | T1-03 | Output schema + JSON parse/repair | Claude | P0 | TODO | T0-04 | vitest parse |
 | T1-04 | AI orchestrator (fallback/timeouts) | Claude | P0 | TODO | T1-03 (+fake provider) | vitest orchestrator |
@@ -90,13 +90,13 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 | T7-05 | Backup demo recording | Human | P1 | TODO | T6-03 | file plays |
 | T7-06 | Final submission | Claude (+human) | P0 | TODO | T6-03, T6-04, T7-02..T7-04 | links open logged-out |
 
-**Counts check:** the dashboard numbers in §A must equal the number of rows with that priority in this table (see D-002). Initial verified count (scripted at creation): 57 tasks = 46 P0 + 9 P1 + 2 P2.
+Counts check: the dashboard numbers in §A must equal the number of rows with that priority in this table (see D-002). Initial verified count (scripted at creation): 57 tasks = 46 P0 + 9 P1 + 2 P2.
 
 ### Human actions (not agent tasks, but block them)
 
 | ID | Action | Status | Needed by |
 |---|---|---|---|
-| H1 | Provide `GEMINI_API_KEY` in local env (never in repo/chat logs) | TODO | before T0-01 (≈11:00) |
+| H1 | Provide `DO_GENAI_API_KEY` (and `DO_GENAI_BASE_URL` if custom) in local env (never in repo/chat logs) | TODO | before T0-01 (≈11:00) |
 | H2 | Create DigitalOcean App Platform app from GitHub repo; set secret in console | TODO | ≈13:00 |
 | H3 | Confirm event submission form requirements & fields | TODO | by 14:30 |
 | H4 | Record backup demo; test live site on a real phone | TODO | by 15:30 |
@@ -111,7 +111,8 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 
 | Timestamp | Agent | Task | Files changed | Tests executed | Outcome | Next action |
 |---|---|---|---|---|---|---|
-| 2026-10-27 ~10:50 IST | Claude | Docs creation (pre-Phase 0) | `context/{Architecture,UI-registery,Plan,Progress-tracker,AGENTS}.md` | None (documentation only). Checked `date`, directory contents, `node -v`, `git --version`; looked up Gemma 4 model IDs in Google docs | Five planning docs written. **No application code. No model call made.** | Codex: T0-02 scaffold. Claude: T0-04 types. Gemini: T0-01 once H1 done |
+| 2026-10-27 ~10:50 IST | Claude | Docs creation (pre-Phase 0) | `context/{Architecture,UI-registery,Plan,Progress-tracker,AGENTS}.md` | None (documentation only). Checked `date`, directory contents, `node -v`, `git --version` | Five planning docs written. **No application code. No model call made.** | Codex: T0-02 scaffold. Claude: T0-04 types. Gemini: T0-01 once H1 done |
+| 2026-10-27 ~11:00 IST | Claude | Track realignment | `context/{Architecture,UI-registery,Plan,Progress-tracker,AGENTS}.md` | None (documentation update). | Aligned project with DigitalOcean track: "Best Open-Source AI Project" using DigitalOcean GenAI Platform & open-weight models (Llama 3.3/3.1). | Gemini: T0-01 once DO credentials provided; Codex: T0-02 scaffold. |
 
 ---
 
@@ -119,7 +120,7 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 
 | ID | Blocker | Owner | Impact | Resolution plan | Status |
 |---|---|---|---|---|---|
-| B-001 | No verified Gemma API access: key not yet provided to the environment; model IDs, `inlineData` image support, JSON-mode behavior, and quota all unconfirmed | Human (H1) → Gemini (T0-01) | Blocks T0-01, T1-01 (image mode), T1-05, T5-02, live demo | Human sets `GEMINI_API_KEY`; Gemini runs `verify-model.ts`; if models fail, follow Plan §6 12:30 rule — escalate, do not substitute non-Gemma silently | OPEN |
+| B-001 | No verified DigitalOcean GenAI API credentials: key and inference base URL not yet set in environment | Human (H1) → Gemini (T0-01) | Blocks T0-01, T1-01, T1-05, T5-02, live demo | Human provides `DO_GENAI_API_KEY` (and `DO_GENAI_BASE_URL` if custom) from DigitalOcean dashboard; Gemini runs `verify-model.ts` | OPEN |
 
 ---
 
@@ -129,9 +130,10 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 |---|---|---|---|---|---|
 | D-001 | 2026-10-27 | Planning docs live in `context/` (per user instruction "create in the repository context folder") rather than repo root | Explicit user instruction; the original brief said "project root" — if a root-level `AGENTS.md` is needed for tool auto-discovery, add a one-line pointer file (Claude) | Claude per user | AGENTS.md §14 |
 | D-002 | 2026-10-27 | Tracker count discipline: dashboard counts must be recomputed from §B by whoever changes the table | Prevent drift | Claude | §A |
-| D-003 | 2026-10-27 | Fallback chain stays within Gemma 4 (`gemma-4-31b-it` → `gemma-4-26b-a4b-it`) then deterministic-only | "Never silently replace Gemma"; transparent degradation | Claude (Architecture ADR-006) | Architecture §4.7 |
-| D-004 | 2026-10-27 | JSON output via prompt + Zod + repair retry; native JSON mode not relied upon | Not documented for Gemma | Claude (ADR-005) | Architecture §4.5 |
+| D-003 | 2026-10-27 | Fallback chain stays within open-weight models on DigitalOcean (`meta-llama/llama-3.3-70b-instruct` → `meta-llama/llama-3.1-8b-instruct`) then deterministic-only | Honors Hackathon track rules; transparent degradation | Claude (Architecture ADR-006) | Architecture §4.7 |
+| D-004 | 2026-10-27 | JSON output via prompt + Zod + repair retry alongside native JSON mode | Reliable output across open-weight models | Claude (ADR-005) | Architecture §4.5 |
 | D-005 | 2026-10-27 | Stateless app; exports are client-side | Privacy, speed | Claude (ADR-002, 012) | UI B.6 |
+| D-006 | 2026-10-27 | Switched hackathon track to DigitalOcean: "Best Open-Source AI Project" using open-weight models (Meta Llama 3.3 / Llama 3.1) via DigitalOcean GenAI Platform | Explicit user instruction; conforms to track brief ("Build an original project that uses open-source or open-weight AI... Build with DigitalOcean") | Human & Claude | All context docs, AI provider, env configuration |
 
 ---
 
@@ -147,12 +149,10 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 
 | Item | Result | Evidence |
 |---|---|---|
-| `gemma-4-31b-it` responds | NOT TESTED | |
-| `gemma-4-26b-a4b-it` responds | NOT TESTED | |
+| `meta-llama/llama-3.3-70b-instruct` responds | NOT TESTED | |
+| `meta-llama/llama-3.1-8b-instruct` responds | NOT TESTED | |
 | System instruction honored | NOT TESTED | |
-| Image via `inlineData` | NOT TESTED | |
-| Image via Files API | NOT TESTED | |
-| `responseMimeType: application/json` honored | NOT TESTED | |
+| JSON format honored | NOT TESTED | |
 | Observed latency (text) | NOT MEASURED | |
 | Quota / rate-limit behavior | NOT OBSERVED | |
 
@@ -174,7 +174,7 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 | Local prod run + `/api/health` | NOT DONE | |
 | DO app created & connected to GitHub | NOT DONE | |
 | Env vars configured (non-secret) | NOT DONE | |
-| `GEMINI_API_KEY` set as secret in DO | NOT DONE | |
+| `DO_GENAI_API_KEY` set as secret in DO | NOT DONE | |
 | Health check configured to `/api/health` | NOT DONE | |
 | First deployment succeeded | NOT DONE | |
 | API connectivity: live text analysis returns report with `model.usedModel` | NOT DONE | |

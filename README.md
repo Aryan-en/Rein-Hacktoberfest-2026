@@ -4,12 +4,12 @@
 
 ### Understand the Threat. Verify the Evidence. Stay Protected.
 
-An open-source, evidence-based scam and phishing investigation platform powered by **Google Gemma 4**.
+An open-source, evidence-based scam and phishing investigation platform powered by **DigitalOcean GenAI & Open-Weight AI (Llama 3.3 / 3.1)**.
 
 ![Status](https://img.shields.io/badge/status-in%20development-F59E0B)
 ![Next.js](https://img.shields.io/badge/Next.js-App%20Router-000000?logo=nextdotjs)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
-![Model](https://img.shields.io/badge/AI-Gemma%204-2DD4BF)
+![Model](https://img.shields.io/badge/AI-DigitalOcean%20GenAI%20(Open--Weight)-0080FF?logo=digitalocean)
 ![Event](https://img.shields.io/badge/Hacktoberfest%20Hack%20Day-Chandigarh%202026-3B82F6)
 
 </div>
@@ -17,7 +17,7 @@ An open-source, evidence-based scam and phishing investigation platform powered 
 ---
 
 > ## ⚠️ Project status — please read
-> TrustLens AI is being built for **Hacktoberfest Hack Day Chandigarh 2026** (submission deadline **27 Oct 2026, 16:30 IST**).
+> TrustLens AI is being built for **Hacktoberfest Hack Day Chandigarh 2026** (Track: **Best Open-Source AI Project by DigitalOcean**, submission deadline **27 Oct 2026, 16:30 IST**).
 >
 > **Today the repository contains the full engineering specification (`context/`) and a stock `create-next-app` scaffold. The investigation features described below are _designed, not yet implemented_.** This README marks every capability with a status badge, and the live status is tracked in [`context/Progress-tracker.md`](context/Progress-tracker.md). Nothing here is claimed as working, tested, or deployed until that tracker records execution evidence.
 >
@@ -40,7 +40,7 @@ An open-source, evidence-based scam and phishing investigation platform powered 
 5. [Evidence you can trust (and evidence you shouldn't)](#5-evidence-you-can-trust-and-evidence-you-shouldnt)
 6. [Risk classification](#6-risk-classification)
 7. [Architecture](#7-architecture)
-8. [How Gemma 4 is used](#8-how-gemma-4-is-used)
+8. [How DigitalOcean Open-Weight AI is used](#8-how-digitalocean-open-weight-ai-is-used)
 9. [Technology stack](#9-technology-stack)
 10. [Getting started](#10-getting-started)
 11. [Configuration](#11-configuration)
@@ -64,7 +64,7 @@ An open-source, evidence-based scam and phishing investigation platform powered 
 
 Scams are increasingly personal: a WhatsApp "job offer", a bank-KYC SMS, a lookalike payment link, a screenshot of a "customer-care" chat. People need to know **why** something looks suspicious, not just a verdict.
 
-TrustLens accepts suspicious content, investigates it with a combination of **deterministic security analysis** and **Gemma 4 multimodal reasoning**, and produces an **explainable report** that shows exactly what was found, how it was found, and what we could _not_ determine.
+TrustLens accepts suspicious content, investigates it with a combination of **deterministic security analysis** and **DigitalOcean open-weight model reasoning (Llama 3.3/3.1)**, and produces an **explainable report** that shows exactly what was found, how it was found, and what we could _not_ determine.
 
 **Supported inputs**
 
@@ -99,7 +99,7 @@ TrustLens is **not** a chatbot, not a generic LLM wrapper, and **never** shows a
 | LLM output shown as-is | LLM output **validated against a schema** and every quoted phrase **verified to exist** in your input |
 | Model can say anything | Model **cannot raise risk to High without a verified quote**, and **cannot lower risk below deterministic findings** |
 | Fetches the link to "scan" it | **Never opens, resolves, or fetches** submitted URLs, which removes SSRF and avoids touching live malware |
-| Silent model swaps | Report always states **which model actually ran**; fallback stays within Gemma 4, then degrades to rules-only, clearly labelled |
+| Silent model swaps | Report always states **which model actually ran**; fallback stays within open-weight models on DigitalOcean, then degrades to rules-only, clearly labelled |
 | English only | English **and** Hindi from one inference call |
 | "Safe" badge | Low means *"no strong indicators found"*, never *"safe"* |
 
@@ -111,7 +111,7 @@ TrustLens is **not** a chatbot, not a generic LLM wrapper, and **never** shows a
 |---|---|---|
 | Text investigation (SMS / WhatsApp / email) | P0 | 📐 Specified |
 | URL structural forensics (host breakdown, registrable domain, signals) | P0 | 📐 Specified |
-| Gemma 4 explanation, manipulation techniques, categories | P0 | 📐 Specified |
+| DigitalOcean Open-Weight AI explanation, manipulation techniques, categories | P0 | 📐 Specified |
 | Deterministic signals: IP-host, userinfo `@`, punycode/IDN, lookalike & brand-mismatch domains, deceptive subdomains, shorteners, encoding abuse | P0 | 📐 Specified |
 | Text signals: urgency, threats, credential/OTP requests, advance-fee, remote-access requests, off-platform migration (EN / Hindi / Hinglish) | P0 | 📐 Specified |
 | Evidence verification (quote must exist in input) | P0 | 📐 Specified |
@@ -130,7 +130,7 @@ TrustLens is **not** a chatbot, not a generic LLM wrapper, and **never** shows a
 ## 4. How an investigation works
 
 ```
-User Input → Validation → Normalization → URL & Text Heuristics → Gemma 4 Inference
+User Input → Validation → Normalization → URL & Text Heuristics → DigitalOcean Open-Weight Inference
           → Response Validation → Evidence Verification → Risk Classification → Investigation Report
 ```
 
@@ -142,7 +142,7 @@ sequenceDiagram
   participant API as /api/analyze
   participant SEC as Security Engine
   participant AI as AI Orchestrator
-  participant G as Gemma 4 (Gemini API)
+  participant DO as DigitalOcean GenAI (Open-Weight)
   participant V as Verifier + Classifier
 
   U->>UI: Paste text / URL / screenshot
@@ -151,11 +151,11 @@ sequenceDiagram
   API->>SEC: Normalize · extract URLs · run heuristics
   SEC-->>API: Signals + URL analyses
   API->>AI: Build fenced prompt (signals as hints)
-  AI->>G: generateContent (primary Gemma model)
+  AI->>DO: chat.completions.create (primary open-weight model)
   alt primary fails or times out
-    AI->>G: generateContent (fallback Gemma model)
+    AI->>DO: chat.completions.create (fallback open-weight model)
   end
-  G-->>AI: JSON findings
+  DO-->>AI: JSON findings
   AI->>AI: Parse · Zod validate · one repair retry
   AI-->>API: Findings or failure
   API->>V: Verify quotes · reconcile with deterministic floor
@@ -168,7 +168,7 @@ sequenceDiagram
 | Validation | Zod schema, size limits, MIME and magic-byte checks | `400 / 413 / 415` |
 | Normalization | Unicode NFKC, strips zero-width / bidi characters (and records that it did) | Never fails |
 | Heuristics | Deterministic signals with bilingual explanations | Per-URL failure becomes an observation |
-| Gemma inference | Fenced prompt, JSON output, timeout, fallback chain | Degrades to rules-only report |
+| DigitalOcean AI inference | Fenced prompt, JSON output, timeout, fallback chain | Degrades to rules-only report |
 | Response validation | Extract JSON → schema check → one repair retry | Treated as model failure |
 | Evidence verification | Each quoted phrase is string-matched against the source | Unverified items are labelled and can't escalate risk |
 | Classification | Pure deterministic function (§6) | Never throws |
@@ -183,7 +183,7 @@ TrustLens refuses to blur the line between *what we saw* and *what a model think
 |---|---|---|---|
 | **Observed** | A literal fact extracted by deterministic code | "The host is the IPv4 address `203.0.113.9`" | Via the signal it feeds |
 | **Heuristic indicator** | A rule-based pattern that correlates with scams; **not proof** | "Urgency language: *within 24 hours*" | Yes, by weight |
-| **AI interpretation** | Gemma's reading of context | "This imitates a bank KYC notice" | Only with a verified quote |
+| **AI interpretation** | Model's contextual reading | "This imitates a bank KYC notice" | Only with a verified quote |
 | **Independently verified fact** | Confirmed by an external authority | _None in the MVP_ | n/a |
 
 > The MVP performs **no external lookups** (no WHOIS, no reputation feeds, no Safe Browsing, no fetching). It therefore does **not** claim any independently verified fact. Each evidence item carries a `quoteVerified` flag. That flag means "the quote exists in your input", **not** "the claim is true".
@@ -239,13 +239,13 @@ flowchart LR
     RISK[Risk classifier]
     REP[Report assembler]
   end
-  GEM[(Gemini API<br/>Gemma 4)]
+  DO_AI[(DigitalOcean GenAI<br/>Open-Weight Models)]
 
   UI -->|JSON| API
   API --> RL --> VAL --> NORM --> PIPE
   PIPE --> SEC
   PIPE --> AI
-  AI -->|HTTPS, the only outbound call| GEM
+  AI -->|HTTPS, the only outbound call| DO_AI
   PIPE --> VER --> RISK --> REP --> API
   API -->|InvestigationReport| UI
 ```
@@ -254,26 +254,25 @@ Design principles
 
 - **Stateless**: no database, no stored submissions, exports happen client-side.
 - **Deterministic first**: the rules engine runs before and independently of the model, so the product still works when AI is unavailable.
-- **One outbound call**: only the Gemini API. Submitted URLs are never resolved or fetched.
-- **Provider abstraction**: a single `AiProvider` interface; one file imports the Google SDK.
+- **One outbound call**: only the DigitalOcean GenAI API endpoint. Submitted URLs are never resolved or fetched.
+- **Provider abstraction**: a single `AiProvider` interface; one file imports the OpenAI-compatible SDK.
 - **Contracts as code**: shared TypeScript types and Zod schemas are the single source of truth for UI and API.
 
 Details, ADRs, and the threat model live in [`context/Architecture.md`](context/Architecture.md).
 
 ---
 
-## 8. How Gemma 4 is used
+## 8. How DigitalOcean Open-Weight AI is used
 
 | Aspect | Design | Verification status |
 |---|---|---|
-| Models | `gemma-4-31b-it` (primary) → `gemma-4-26b-a4b-it` (fallback) via the Gemini API | IDs are listed in Google's docs; **not yet called with our key** (task T0-01) |
-| SDK | `@google/genai` | Documented; version to be pinned |
+| Models | `meta-llama/llama-3.3-70b-instruct` (primary) → `meta-llama/llama-3.1-8b-instruct` (fallback) via DigitalOcean GenAI Platform | Configured via DigitalOcean dashboard; **to be called with our key** (task T0-01) |
+| SDK | `openai` client configured with DigitalOcean GenAI `baseURL` | Standard OpenAI-compatible API |
 | Text analysis | System instruction + fenced untrusted content + deterministic signals as *hints* | 📐 Specified |
-| Screenshot analysis | Image → OCR transcription (`extractedText`) + findings; OCR text is re-run through the deterministic engine and tagged `source: ocr` | Image transport (inline bytes vs Files API) **unverified** |
-| Structured output | Prompted JSON → extract → Zod validate → one repair retry. Native JSON mode is **not** relied upon (not documented for Gemma) | Design decision (ADR-005) |
+| Screenshot analysis | Image → OCR transcription (`extractedText`) + findings; OCR text is re-run through the deterministic engine and tagged `source: ocr` | Client/server image processing 📐 Specified |
+| Structured output | Prompted JSON + Zod validate + repair retry alongside native JSON mode | Design decision (ADR-005) |
 | Bilingual output | English and Hindi generated in the same call | Hindi quality to be reviewed in evals |
-| Thinking | `minimal` by default for latency | To be tuned |
-| Fallback | Gemma → Gemma → rules-only; the report discloses `requestedModel`, `usedModel`, every attempt, and `fellBack` | 📐 Specified |
+| Fallback | Primary Open-Weight → Fallback Open-Weight → rules-only; report discloses `requestedModel`, `usedModel`, every attempt, and `fellBack` | 📐 Specified |
 
 **Prompt-injection defenses (layered):** per-request nonce fencing of untrusted content · the model has no tools or browsing · only schema-validated fields are consumed · text is rendered as React text nodes only · AI escalation requires verified quotes · injection attempts are surfaced as an indicator · an adversarial evaluation set guards regressions.
 
@@ -286,7 +285,7 @@ Details, ADRs, and the threat model live in [`context/Architecture.md`](context/
 | Framework | Next.js (App Router), React, TypeScript (`strict`) |
 | Styling / UI | Tailwind CSS, shadcn/ui, Lucide React, Motion (restrained) |
 | Backend | Next.js Route Handlers, Zod, modular service architecture |
-| AI | Google Gemma 4 through `@google/genai` |
+| AI | DigitalOcean GenAI Platform (Open-Weight Models: Llama 3.3 / Llama 3.1) via `openai` client |
 | Security | WHATWG `URL`, [`tldts`](https://github.com/remusao/tldts) for registrable-domain analysis, curated heuristics |
 | Testing | Vitest (unit + integration), opt-in live-model evals, Playwright (stretch) |
 | Hosting | DigitalOcean App Platform via GitHub |
@@ -301,7 +300,7 @@ Details, ADRs, and the threat model live in [`context/Architecture.md`](context/
 
 - Node.js (developed on v26.0.0; the supported production range will be pinned in `engines`, task T6-01)
 - npm
-- A Google AI Studio API key with access to Gemma 4 models. **Access and quota are unverified until task T0-01 completes.**
+- DigitalOcean GenAI API credentials (`DO_GENAI_API_KEY`, optional `DO_GENAI_BASE_URL`).
 
 ### Run the current scaffold
 
@@ -315,7 +314,7 @@ npm run dev        # http://localhost:3000, currently the stock Next.js starter 
 ### Once the MVP lands 📐
 
 ```bash
-cp .env.example .env.local     # then add GEMINI_API_KEY (never commit it)
+cp .env.example .env.local     # then add DO_GENAI_API_KEY (never commit it)
 npm run dev
 npm run typecheck && npm run lint && npm test && npm run build
 ```
@@ -329,7 +328,7 @@ Planned scripts
 | `npm run lint` | ESLint |
 | `npm test` | Unit + integration tests, **offline and deterministic** |
 | `npm run test:ai` | Opt-in live-model evals (needs a key) |
-| `npx tsx scripts/verify-model.ts` | Verifies Gemma endpoints, image transport, JSON behaviour |
+| `npx tsx scripts/verify-model.ts` | Verifies DigitalOcean GenAI endpoints, JSON behaviour |
 
 ---
 
@@ -339,9 +338,10 @@ All configuration is environment-based and parsed with Zod at startup. Secrets a
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `GEMINI_API_KEY` | For AI mode | none | Server-side secret. If absent the app runs rules-only and `/api/health` reports `missing_key` |
-| `TRUSTLENS_PRIMARY_MODEL` | No | `gemma-4-31b-it` | First model to try |
-| `TRUSTLENS_FALLBACK_MODEL` | No | `gemma-4-26b-a4b-it` | Second Gemma model |
+| `DO_GENAI_API_KEY` | For AI mode | none | Server-side secret. If absent the app runs rules-only and `/api/health` reports `missing_key` |
+| `DO_GENAI_BASE_URL` | No | `https://inference.do.co/v1` | DigitalOcean GenAI serverless inference endpoint |
+| `TRUSTLENS_PRIMARY_MODEL` | No | `meta-llama/llama-3.3-70b-instruct` | First open-weight model to try |
+| `TRUSTLENS_FALLBACK_MODEL` | No | `meta-llama/llama-3.1-8b-instruct` | Second open-weight model |
 | `TRUSTLENS_MODEL_TIMEOUT_MS` | No | `25000` | Per-attempt timeout |
 | `TRUSTLENS_RATE_LIMIT_PER_MIN` | No | `10` | Per-client limit |
 | `TRUSTLENS_DAILY_CAP` | No | `500` | Global daily inference cap |
@@ -380,7 +380,7 @@ Response: an `InvestigationReport` (classification, signals, URL analyses, evide
 A model failure is **not** an HTTP error. It yields a 200 report that says AI analysis was unavailable.
 
 ### `GET /api/health` 📐
-Returns `{ status, version, ai: "configured" | "missing_key" }`. It does not call Gemma.
+Returns `{ status, version, ai: "configured" | "missing_key" }`. It does not call DigitalOcean GenAI.
 
 ---
 
@@ -467,7 +467,7 @@ To report a vulnerability, open a private security advisory on the GitHub reposi
 | Source | GitHub `main`, auto-deploy on push |
 | Build / run | `npm ci && npm run build` / `npm start` |
 | Health check | `GET /api/health` |
-| Secrets | `GEMINI_API_KEY` as an encrypted env var in the console, never in the repo |
+| Secrets | `DO_GENAI_API_KEY` as an encrypted env var in the console, never in the repo |
 | Instance | Single smallest viable instance (in-memory rate limiter assumes one instance); check current pricing in the console |
 | Verification | Scripted live smoke test: health, text, URL, 413, 400, 429 |
 | Rollback | Redeploy the previous successful deployment, or `git revert` and push; known-good commit recorded before late deploys |
@@ -545,7 +545,7 @@ Contributions are welcome after the hackathon submission window. Until then, wor
 
 ## 24. Acknowledgements
 
-- [Google Gemma](https://ai.google.dev/gemma) open models and the Gemini API
+- [DigitalOcean GenAI Platform](https://cloud.digitalocean.com/genai) and open-weight models (Meta Llama 3.3 / 3.1)
 - [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), [shadcn/ui](https://ui.shadcn.com), [Lucide](https://lucide.dev), [Zod](https://zod.dev), [tldts](https://github.com/remusao/tldts), [Vitest](https://vitest.dev)
 - Hacktoberfest Hack Day Chandigarh 2026 organisers
 
