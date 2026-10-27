@@ -741,3 +741,24 @@ Synthetic data only; no real victims' messages. Test commands standardized: `npm
 ## 12. Change Control
 
 Changes to §4.5 (`ModelFindings`), §7 (API contract), §6 (classification), or §3 ownership require: update this file in the same commit → note in `Progress-tracker.md` §E (Decisions) → notify affected owners via handoff (see `AGENTS.md` §6). Claude owns this file; others propose changes via a `Decision proposal` entry.
+
+---
+
+## 13. Implementation as Built — `Server_End/` (2026-10-27)
+
+The backend was implemented as a **standalone Node/TypeScript HTTP server** in `Server_End/` (decision D-006), exposing the same contract as §7. The sections above remain the specification; this section records where the build differs or adds to it. Verification evidence lives in `Progress-tracker.md` §F.
+
+| Topic | As built |
+|---|---|
+| Runtime | Node `http` server (`src/server.ts`) + `createApp()` handler (`src/app.ts`); `tsx` runs it; no web framework. Port from `PORT` (default 8080). CORS allow-list via `TRUSTLENS_CORS_ORIGINS` (default `http://localhost:3000`) so the Next.js frontend can call it. |
+| Layout | `Server_End/src/{config,types,validation,security,ai,analysis,lib}`, `tests/`, `scripts/`, `evals/`. Same module boundaries as §3, rooted at `Server_End/src` instead of `src/`. |
+| Provider | `src/ai/providers/digitalocean.ts` uses the `openai` SDK against DigitalOcean's OpenAI-compatible endpoint (`maxRetries: 0`; retries/fallback live in the orchestrator). Default base URL `https://inference.do-ai.run/v1` (D-007). Retries once without `response_format` if the endpoint rejects JSON mode. |
+| Config additions | `TRUSTLENS_VISION_MODEL`, `TRUSTLENS_VISION_FALLBACK_MODEL`, `TRUSTLENS_JSON_MODE`, `TRUSTLENS_PROXY_HOPS`, `TRUSTLENS_CORS_ORIGINS`, `PORT`. |
+| Screenshot mode | Needs a vision-capable model in `TRUSTLENS_VISION_MODEL`. Unset → `503 image_analysis_unavailable` (new error code). Image is sent as an OpenAI-style `image_url` data URI. OCR text is re-run through the deterministic engine with `source: "ocr"`. **Unverified against any live vision model.** |
+| Error codes added | `image_analysis_unavailable` (503), `not_found` (404), `method_not_allowed` (405). |
+| Hindi fallback | If the model omits a Hindi string, `hi` is `""` (never auto-translated); consumers must fall back to English. |
+| Offsets | `normalizeText` returns a single normalized string used as `displayText`; all spans index into it (no separate original-offset map). |
+| Rate-limit key | Nth-from-right `X-Forwarded-For` entry (`TRUSTLENS_PROXY_HOPS`, default 1), else socket address. |
+| Logging | Allow-list logger (`src/lib/logger.ts`) drops any field not in a fixed set; a test asserts submitted content never appears in logs. |
+| Not implemented | `InvestigationReportSchema` (Zod response schema), Playwright E2E, CSP for a frontend (API sets `default-src 'none'`), live-model evals (script exists; needs key), the frontend. |
+| Unverified | Live DigitalOcean endpoint behaviour, the default model IDs (`meta-llama/llama-3.3-70b-instruct`, `meta-llama/llama-3.1-8b-instruct`), JSON-mode support, vision support, quotas. Run `npm run verify-model` in `Server_End/` with a key. DigitalOcean's catalog may use different ID strings than the defaults. |

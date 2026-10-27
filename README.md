@@ -431,7 +431,7 @@ All test data is **synthetic**. `npm test` makes **no network calls**.
 | Threat | Mitigation |
 |---|---|
 | Prompt injection (text and image) | Nonce fencing, no model tools, schema-only consumption, verified-quote rule, deterministic floor, adversarial evals |
-| SSRF | Submitted URLs are **never fetched or resolved**; only outbound call is the Gemini API |
+| SSRF | Submitted URLs are **never fetched or resolved**; only outbound call is the DigitalOcean GenAI API |
 | Malicious links | URLs rendered as inert, defanged text, never as anchors |
 | Oversized / spoofed uploads | Byte caps before parsing, MIME allowlist, magic-byte check, no SVG, no server-side image decoding |
 | Secret exposure | Server-only key, `.env*` ignored, generic error messages |
@@ -450,8 +450,8 @@ To report a vulnerability, open a private security advisory on the GitHub reposi
 ## 16. Privacy
 
 - TrustLens **does not store** submitted content: no database, no server-side files, no analytics.
-- To analyse content, the server **sends it to Google's Gemini API**. Treat anything you submit as shared with that provider.
-- **Retention and training terms of the Gemini API for your account tier have not been verified by this project.** They must be checked against Google's official terms before public launch (task T7-02).
+- To analyse content, the server **sends it to the DigitalOcean GenAI API endpoint**. Treat anything you submit as shared with that provider.
+- **Retention and processing terms are governed by DigitalOcean's GenAI Platform policy.**
 - **Please redact** OTPs, passwords, card numbers, Aadhaar/PAN and other personal data before submitting.
 - Logs contain only request IDs, input type, lengths, signal IDs, risk label, model IDs, latency, and error kinds.
 - Fonts are self-hosted; no third-party trackers.

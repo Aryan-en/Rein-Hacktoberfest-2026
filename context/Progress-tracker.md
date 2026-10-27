@@ -1,7 +1,7 @@
 # TrustLens AI — Progress Tracker
 
 > **Living document.** Every agent updates it after meaningful work (see `AGENTS.md` §7 for edit rules: append-only log, edit only your own task rows, never mark anything passed without evidence).
-> **Initialized:** 2026-10-27 ~10:50 IST by Claude. **Only documentation has been created. No application code exists. Nothing has been built, run, tested, or deployed.**
+> **Initialized:** 2026-10-27 ~10:50 IST by Claude. **Update 2026-10-27 ~11:25 IST: the backend now exists in `Server_End/` (see §C). The frontend, live-model verification and deployment have NOT been done.**
 
 ---
 
@@ -9,15 +9,15 @@
 
 | Metric | Value | Notes |
 |---|---|---|
-| Overall status | **NOT STARTED (docs only)** | Five planning docs written; zero application code |
+| Overall status | **IN PROGRESS: backend built, frontend not started** | `Server_End/` backend implemented and locally tested; no frontend; nothing deployed; no live-model call yet |
 | Current milestone | Phase 0 — Foundation | |
 | Deadline | 2026-10-27 16:30 IST (submit target 16:00) | |
-| P0 completion | **0 / 46 DONE** | Counted from §B (57 tasks total); update on change |
-| P1 completion | **0 / 9 DONE** | |
+| P0 completion | **0 / 46 DONE** (19 in REVIEW) | Counted from §B (57 tasks total). REVIEW = implemented and self-verified locally, awaiting independent review/live verification |
+| P1 completion | **0 / 9 DONE** (2 in REVIEW) | |
 | P2 | 0 / 2 DONE | |
 | Blocking issues | **1 open (B-001)** | DigitalOcean GenAI API credentials unverified |
 | Deployment status | **NOT DEPLOYED** | No live URL |
-| Testing status | **NOT RUN** | No tests exist |
+| Testing status | **Backend: tests run locally** | `Server_End`: `tsc --noEmit` clean; `vitest run` 194 passed; offline rules eval 30/30 (see §F). **No live-model tests** (no API key) |
 | Demo readiness | **NOT READY** | |
 | DigitalOcean GenAI endpoint verified | **NO** | Open-weight model endpoints await team credentials |
 | Docs last reviewed for consistency | 2026-10-27 (Claude, track alignment) | |
@@ -34,26 +34,26 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 |---|---|---|---|---|---|---|
 | T0-01 | Verify DigitalOcean GenAI endpoint & credentials | Gemini | P0 | BLOCKED | H1 (DO credentials from human) | `npx tsx scripts/verify-model.ts` |
 | T0-02 | Scaffold Next.js app & deps | Codex | P0 | TODO | — | `npm run typecheck && npm run lint && npm run build` |
-| T0-03 | Env config + `.env.example` | Codex | P0 | TODO | T0-02 | `npm run typecheck` + unit |
-| T0-04 | Freeze shared types, limits, Zod schemas | Claude | P0 | TODO | T0-02 | `npm run typecheck && vitest validation` |
+| T0-03 | Env config + `.env.example` | Codex | P0 | REVIEW | T0-02 | `npm run typecheck` + unit |
+| T0-04 | Freeze shared types, limits, Zod schemas | Claude | P0 | REVIEW | T0-02 | `npm run typecheck && vitest validation` |
 | T0-05 | Verify DO/SDK assumptions in docs | Claude | P0 | TODO | — | Manual doc review |
 | T0-06 | Commit docs baseline & push | Claude | P0 | TODO | — | `git log` |
-| T1-01 | DigitalOcean GenAI provider adapter | Codex | P0 | TODO | T0-03, T0-04, T0-01 | vitest adapter |
-| T1-02 | Prompt templates v1 (text) | Gemini | P0 | TODO | T0-04 | vitest prompts |
-| T1-03 | Output schema + JSON parse/repair | Claude | P0 | TODO | T0-04 | vitest parse |
-| T1-04 | AI orchestrator (fallback/timeouts) | Claude | P0 | TODO | T1-03 (+fake provider) | vitest orchestrator |
+| T1-01 | DigitalOcean GenAI provider adapter | Codex | P0 | REVIEW | T0-03, T0-04, T0-01 | vitest adapter |
+| T1-02 | Prompt templates v1 (text) | Gemini | P0 | REVIEW | T0-04 | vitest prompts |
+| T1-03 | Output schema + JSON parse/repair | Claude | P0 | REVIEW | T0-04 | vitest parse |
+| T1-04 | AI orchestrator (fallback/timeouts) | Claude | P0 | REVIEW | T1-03 (+fake provider) | vitest orchestrator |
 | T1-05 | Real inference smoke test | Gemini | P0 | TODO | T1-01..T1-04 | `npx tsx scripts/smoke-inference.ts` |
-| T2-01 | Input normalization | Codex | P0 | TODO | T0-04 | vitest normalize |
-| T2-02 | URL extraction & parsing | Codex | P0 | TODO | T0-04 | vitest url-parse |
-| T2-03 | URL heuristics | Codex | P0 | TODO | T2-02 | vitest url-heuristics |
-| T2-04 | Text signal detectors | Codex | P0 | TODO | T2-01 | vitest text-signals |
-| T2-05 | Risk classification | Claude | P0 | TODO | T0-04 | vitest classify |
-| T2-06 | Evidence verification | Claude | P0 | TODO | T0-04, T2-01 | vitest verify-evidence |
-| T2-07 | Bilingual recommendations | Claude | P0 | TODO | T0-04 | vitest recommendations |
-| T2-08 | Pipeline & report assembly | Claude | P0 | TODO | T1-04, T2-03..T2-07 | vitest pipeline |
-| T2-09 | Rate limiter & daily cap | Codex | P0 | TODO | T0-03 | vitest rate-limit |
-| T2-10 | `/api/analyze` + `/api/health` | Codex | P0 | TODO | T0-04, T2-01, T2-08, T2-09 | curl + vitest integration |
-| T2-11 | API integration tests | Codex | P0 | TODO | T2-10 | vitest integration |
+| T2-01 | Input normalization | Codex | P0 | REVIEW | T0-04 | vitest normalize |
+| T2-02 | URL extraction & parsing | Codex | P0 | REVIEW | T0-04 | vitest url-parse |
+| T2-03 | URL heuristics | Codex | P0 | REVIEW | T2-02 | vitest url-heuristics |
+| T2-04 | Text signal detectors | Codex | P0 | REVIEW | T2-01 | vitest text-signals |
+| T2-05 | Risk classification | Claude | P0 | REVIEW | T0-04 | vitest classify |
+| T2-06 | Evidence verification | Claude | P0 | REVIEW | T0-04, T2-01 | vitest verify-evidence |
+| T2-07 | Bilingual recommendations | Claude | P0 | REVIEW | T0-04 | vitest recommendations |
+| T2-08 | Pipeline & report assembly | Claude | P0 | REVIEW | T1-04, T2-03..T2-07 | vitest pipeline |
+| T2-09 | Rate limiter & daily cap | Codex | P0 | REVIEW | T0-03 | vitest rate-limit |
+| T2-10 | `/api/analyze` + `/api/health` | Codex | P0 | REVIEW | T0-04, T2-01, T2-08, T2-09 | curl + vitest integration |
+| T2-11 | API integration tests | Codex | P0 | REVIEW | T2-10 | vitest integration |
 | T3-01 | Design system foundation | Codex | P0 | TODO | T0-02 | build + visual |
 | T3-02 | Fixture/sample report | Codex | P0 | TODO | T0-04 | vitest demo |
 | T3-03 | Layout components | Codex | P0 | TODO | T3-01 | build + keyboard |
@@ -65,12 +65,12 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 | T3-09 | Progress, errors, boundary | Codex | P0 | TODO | T3-06 | vitest ui |
 | T3-10 | Investigate page integration | Codex | P0 | TODO | T3-05..T3-09, T2-10 | manual journeys |
 | T3-11 | Report export | Codex | P1 | TODO | T3-10 | vitest export + print |
-| T4-01 | Server image validation | Codex | P1 | TODO | T2-10 | vitest image-validate |
+| T4-01 | Server image validation | Codex | P1 | REVIEW | T2-10 | vitest image-validate |
 | T4-02 | Image prompt + OCR contract | Gemini | P1 | TODO | T1-02, T0-01 | vitest prompts |
-| T4-03 | Pipeline: screenshot path | Claude | P1 | TODO | T4-01, T4-02, T2-08 | vitest pipeline-image |
+| T4-03 | Pipeline: screenshot path | Claude | P1 | REVIEW | T4-01, T4-02, T2-08 | vitest pipeline-image |
 | T4-04 | ScreenshotUploader + wiring | Codex | P1 | TODO | T3-05, T4-03 | manual journey D.3 |
 | T4-05 | Screenshot test cases | Gemini | P1 | TODO | T4-02 | run-evals screenshots |
-| T5-01 | No-network & logging safety tests | Codex | P0 | TODO | T2-11 | vitest safety |
+| T5-01 | No-network & logging safety tests | Codex | P0 | REVIEW | T2-11 | vitest safety |
 | T5-02 | Adversarial injection evals | Gemini | P0 | TODO | T1-05 | run-evals adversarial |
 | T5-03 | Phishing/benign evals + Hindi review | Gemini | P1 | TODO | T1-05 | run-evals |
 | T5-04 | Security review | Claude | P0 | TODO | T2-10, T3-10 | grep + npm audit |
@@ -78,7 +78,7 @@ Status values: `TODO` · `IN_PROGRESS` · `BLOCKED` · `REVIEW` · `DONE`. Detai
 | T5-06 | Cross-module integration review | Claude | P0 | TODO | T3-10 | typecheck + test |
 | T5-07 | Performance pass | Codex | P2 | TODO | T3-10 | build size |
 | T5-08 | Playwright E2E | Codex | P2 | TODO | T3-10 | playwright |
-| T6-01 | DO app spec + build config | Codex | P0 | TODO | T0-02, T0-05 | local prod run + health |
+| T6-01 | DO app spec + build config | Codex | P0 | REVIEW | T0-02, T0-05 | local prod run + health |
 | T6-02 | Early skeleton deploy | Codex (+human) | P0 | TODO | T6-01, T0-06 | live health 200 |
 | T6-03 | Final deploy with secrets | Codex (+human) | P0 | TODO | T6-02, T5-06, T5-04 | live health + smoke |
 | T6-04 | Live smoke test script | Gemini | P0 | TODO | T6-02 | `tsx scripts/smoke-live.ts <url>` |
@@ -113,6 +113,7 @@ Counts check: the dashboard numbers in §A must equal the number of rows with th
 |---|---|---|---|---|---|---|
 | 2026-10-27 ~10:50 IST | Claude | Docs creation (pre-Phase 0) | `context/{Architecture,UI-registery,Plan,Progress-tracker,AGENTS}.md` | None (documentation only). Checked `date`, directory contents, `node -v`, `git --version` | Five planning docs written. **No application code. No model call made.** | Codex: T0-02 scaffold. Claude: T0-04 types. Gemini: T0-01 once H1 done |
 | 2026-10-27 ~11:00 IST | Claude | Track realignment | `context/{Architecture,UI-registery,Plan,Progress-tracker,AGENTS}.md` | None (documentation update). | Aligned project with DigitalOcean track: "Best Open-Source AI Project" using DigitalOcean GenAI Platform & open-weight models (Llama 3.3/3.1). | Gemini: T0-01 once DO credentials provided; Codex: T0-02 scaffold. |
+| 2026-10-27 11:25 IST | Claude (acting as implementer for Claude+Codex+Gemini task zones; user-directed) | T0-03, T0-04, T1-01..T1-04, T2-01..T2-11, T4-01, T4-03, T5-01, T6-01 (REVIEW); T0-01/T1-05 script written but BLOCKED | `Server_End/**` (new standalone Node/TypeScript backend: `src/{app,server}.ts`, `src/config`, `src/types`, `src/validation`, `src/security/**`, `src/ai/**`, `src/analysis/**`, `src/lib/logger.ts`; `tests/**`; `scripts/{verify-model,run-evals}.ts`; `evals/datasets/synthetic.jsonl`; `.env.example`; `.do/app.yaml`) | `cd Server_End && npx tsc --noEmit` → clean; `npx vitest run` → 11 files, 194 tests passed; `npx tsx scripts/run-evals.ts --offline` → 30 cases, 0 failed; real server started with `tsx src/server.ts` and exercised with curl (health, text analysis → High/deterministic_only, 415). `scripts/verify-model.ts` without a key exits 2 (verified honest refusal) | Backend implemented per Architecture contract with deviations listed in Architecture §13. **No live DigitalOcean GenAI call was made (no key in environment). Model IDs and `inference.do-ai.run` are unverified against the live API.** Single-agent implementation: the multi-agent ownership/review rules were not exercised; independent review still required before DONE | Human: provide `DO_GENAI_API_KEY` (H1) and run `npm run verify-model`. Reviewer: review Server_End. Next: frontend (T3-xx) |
 
 ---
 
@@ -133,7 +134,10 @@ Counts check: the dashboard numbers in §A must equal the number of rows with th
 | D-003 | 2026-10-27 | Fallback chain stays within open-weight models on DigitalOcean (`meta-llama/llama-3.3-70b-instruct` → `meta-llama/llama-3.1-8b-instruct`) then deterministic-only | Honors Hackathon track rules; transparent degradation | Claude (Architecture ADR-006) | Architecture §4.7 |
 | D-004 | 2026-10-27 | JSON output via prompt + Zod + repair retry alongside native JSON mode | Reliable output across open-weight models | Claude (ADR-005) | Architecture §4.5 |
 | D-005 | 2026-10-27 | Stateless app; exports are client-side | Privacy, speed | Claude (ADR-002, 012) | UI B.6 |
-| D-006 | 2026-10-27 | Switched hackathon track to DigitalOcean: "Best Open-Source AI Project" using open-weight models (Meta Llama 3.3 / Llama 3.1) via DigitalOcean GenAI Platform | Explicit user instruction; conforms to track brief ("Build an original project that uses open-source or open-weight AI... Build with DigitalOcean") | Human & Claude | All context docs, AI provider, env configuration |
+| D-006 | 2026-10-27 | Backend built as a standalone Node/TypeScript HTTP server in `Server_End/` (not Next.js Route Handlers) | User instruction to place the backend in `Server_End/`; keeps API contract identical so the Next.js frontend can call it via CORS | User + Claude | Architecture §13 |
+| D-007 | 2026-10-27 | Default `DO_GENAI_BASE_URL` changed from `https://inference.do.co/v1` to `https://inference.do-ai.run/v1` | Matches DigitalOcean's published Serverless Inference base URL (docs.digitalocean.com); the earlier value did not appear in the docs found. **Still unverified with a live call** | Claude | Architecture §0/§9.3 |
+| D-008 | 2026-10-27 | Screenshot mode is gated on `TRUSTLENS_VISION_MODEL`; if unset, API returns 503 `image_analysis_unavailable` | No vision-capable open-weight model is confirmed on the account; avoids sending images to a text-only model | Claude | Architecture §13 |
+| D-009 | 2026-10-27 | Switched hackathon track to DigitalOcean: "Best Open-Source AI Project" using open-weight models (Meta Llama 3.3 / Llama 3.1) via DigitalOcean GenAI Platform | Explicit user instruction; conforms to track brief ("Build an original project that uses open-source or open-weight AI... Build with DigitalOcean") | Human & Claude | All context docs, AI provider, env configuration |
 
 ---
 
@@ -143,9 +147,14 @@ Counts check: the dashboard numbers in §A must equal the number of rows with th
 
 | Date/Time | Agent | Command | Result | Evidence / notes |
 |---|---|---|---|---|
-| — | — | — | **No tests have been run.** | — |
+| 2026-10-27 11:21 IST | Claude | `cd Server_End && npx tsc --noEmit` | PASS (no output, exit 0) | local run |
+| 2026-10-27 11:21 IST | Claude | `cd Server_End && npx vitest run` | PASS: 11 files, 194 tests | unit (security, analysis, AI parse/orchestrator/adapter) + HTTP integration with a **fake provider**. No network, no real model |
+| 2026-10-27 11:21 IST | Claude | `cd Server_End && npx tsx scripts/run-evals.ts --offline` | PASS: 30 cases, 0 failed | rules-only (no AI); synthetic dataset. A false positive found by this run (negation across "or") was fixed and a regression test added |
+| 2026-10-27 11:20 IST | Claude | `PORT=8099 npx tsx src/server.ts` + curl health / analyze / 415 | PASS (observed): health `ai: missing_key`; phishing SMS → `high`, `deterministic_only`; wrong content-type → 415 | real HTTP server, no API key |
+| 2026-10-27 11:23 IST | Claude | `npx tsx scripts/verify-model.ts` with empty key | Exit 2 with explicit "nothing was verified" | confirms the script does not fake success |
+| — | — | Live DigitalOcean GenAI calls | **NOT RUN** (no API key in this environment) | B-001 still open |
 
-### F.1 Model verification results (filled by T0-01)
+### F.1 Model verification results (filled by T0-01; script `Server_End/scripts/verify-model.ts` exists, **not yet run with a key**)
 
 | Item | Result | Evidence |
 |---|---|---|
