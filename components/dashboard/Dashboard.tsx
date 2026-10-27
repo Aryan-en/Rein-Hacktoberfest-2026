@@ -99,14 +99,6 @@ export function Dashboard() {
           {/* Map: always illustrative */}
           <Panel id="map" title={t("Global Threat Map", "वैश्विक खतरा मानचित्र")} badge={SAMPLE_BADGE} sub={t("Illustrative sample. TrustLens does not geolocate submissions or have a live geographic feed.", "केवल उदाहरण। TrustLens सबमिशन की भौगोलिक स्थिति नहीं जाँचता और उसके पास लाइव भौगोलिक फ़ीड नहीं है।")}>
             <WorldMap label={t("Illustrative world map with sample hotspots", "नमूना हॉटस्पॉट के साथ उदाहरण विश्व मानचित्र")} />
-            <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-5">
-              {[["🇮🇳", "India", 28], ["🇺🇸", "United States", 18], ["🇮🇩", "Indonesia", 12], ["🇬🇧", "United Kingdom", 8], ["🌐", "Others", 34]].map(([f, n, p]) => (
-                <li key={String(n)} className="rounded-xl border border-line bg-surface-2/50 p-3 opacity-80">
-                  <div className="flex items-center gap-1.5 text-xs text-muted"><span aria-hidden>{f}</span><span className="truncate">{n}</span></div>
-                  <div className="mt-1 text-xl font-semibold tabular-nums">{p}%</div>
-                </li>
-              ))}
-            </ul>
           </Panel>
 
           <div id="trends" className="grid scroll-mt-24 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1.25fr)]">
