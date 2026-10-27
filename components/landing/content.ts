@@ -20,7 +20,7 @@ export const HERO = {
 
 export const TRUST_STRIP = [
   { t: L("Open source", "ओपन सोर्स"), d: L("Read every rule and prompt", "हर नियम और प्रॉम्प्ट पढ़ें") },
-  { t: L("Open-weight AI", "ओपन-वेट AI"), d: L("Served via DigitalOcean GenAI", "DigitalOcean GenAI से") },
+  { t: L("Open-weight AI", "ओपन-वेट AI"), d: L("Gemma and similar open models; reports name the one that ran", "Gemma जैसे ओपन मॉडल; रिपोर्ट बताती है कौन सा चला") },
   { t: L("Rules first", "पहले नियम"), d: L("Deterministic checks run before AI", "AI से पहले नियम-आधारित जाँच") },
   { t: L("EN + हिन्दी", "EN + हिन्दी"), d: L("Every report in both languages", "हर रिपोर्ट दोनों भाषाओं में") },
 ];
@@ -61,7 +61,7 @@ export const FAQ: Array<{ q: LocalizedText; a: LocalizedText }> = [
   { q: L("Do I need an account?", "क्या मुझे खाता चाहिए?"), a: L("No. Everything works as a guest. An optional account only gives you a higher request allowance; it never stores your investigations.", "नहीं। अतिथि के रूप में सब कुछ चलता है। वैकल्पिक खाता केवल अधिक अनुरोध सीमा देता है; आपकी जाँचें कभी सहेजी नहीं जातीं।") },
   { q: L("Does TrustLens open the links I submit?", "क्या TrustLens मेरे दिए लिंक खोलता है?"), a: L("Never. It reads the link's structure only, so it can't confirm what the page contains or who owns it.", "कभी नहीं। वह केवल लिंक की बनावट पढ़ता है, इसलिए पेज की सामग्री या मालिक की पुष्टि नहीं कर सकता।") },
   { q: L("Does \"Low risk\" mean it's safe?", "क्या \"कम जोखिम\" का मतलब सुरक्षित है?"), a: L("No. It means no strong scam indicators were found. Always verify through an official app or number.", "नहीं। इसका मतलब है कि ठगी के कोई मज़बूत संकेत नहीं मिले। हमेशा आधिकारिक ऐप या नंबर से जाँचें।") },
-  { q: L("Which AI does it use?", "यह कौन सा AI इस्तेमाल करता है?"), a: L("Open-weight models served through DigitalOcean GenAI. Each report shows the model that ran, and if AI is unavailable it says so and falls back to rules only.", "DigitalOcean GenAI के ज़रिए ओपन-वेट मॉडल। हर रिपोर्ट चला हुआ मॉडल दिखाती है, और AI उपलब्ध न हो तो बताकर केवल नियमों पर लौट आती है।") },
+  { q: L("Which AI does it use?", "यह कौन सा AI इस्तेमाल करता है?"), a: L("Open-weight models: by default Google's Gemma through the Gemini API (other providers can be configured). Each report shows the model that ran, and if AI is unavailable it says so and falls back to rules only.", "ओपन-वेट मॉडल: डिफ़ॉल्ट रूप से Gemini API के ज़रिए Google का Gemma (अन्य प्रदाता कॉन्फ़िगर हो सकते हैं)। हर रिपोर्ट चला हुआ मॉडल दिखाती है, और AI उपलब्ध न हो तो बताकर केवल नियमों पर लौट आती है।") },
   { q: L("Where does my content go?", "मेरी सामग्री कहाँ जाती है?"), a: L("TrustLens doesn't store it. When AI is on, the text is sent to the model provider to be analysed, so redact OTPs and personal details first.", "TrustLens उसे सहेजता नहीं। AI चालू होने पर विश्लेषण के लिए टेक्स्ट मॉडल प्रदाता को भेजा जाता है, इसलिए पहले OTP और निजी जानकारी हटा दें।") },
   { q: L("I already lost money. What now?", "मैं पैसे खो चुका हूँ। अब क्या?"), a: L("Call your bank immediately to block cards/UPI, then report it. See the Resources page for official channels.", "तुरंत बैंक को कॉल करके कार्ड/UPI ब्लॉक कराएँ, फिर रिपोर्ट करें। आधिकारिक चैनल के लिए संसाधन पेज देखें।") },
 ];

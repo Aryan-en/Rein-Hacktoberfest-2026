@@ -777,3 +777,17 @@ Decision: add **optional** email+password accounts to the backend. Guests keep f
 | Storage | `FileUserStore`: JSON file (`AUTH_DATA_FILE`, default `data/users.json`, mode 0600, atomic rename, refuses to start on a corrupt file). **Ephemeral on App Platform: accounts are lost on redeploy; use a managed database for real use** (swap the `UserStore` interface). |
 | Logging | Only `event` names (`signup`, `login`, `account_deleted`); never emails or passwords (tested). |
 | Not implemented | Password reset, email verification, OAuth/social login, MFA, session revocation lists. The UI says reset is unavailable instead of faking it. |
+
+### 13.2 AI provider switch: Gemini API (2026-10-27, user-directed)
+
+DigitalOcean GenAI requires paid credits, so the backend now supports **two providers behind the same `AiProvider` interface**, selected by `AI_PROVIDER` (`auto` | `gemini` | `digitalocean`):
+
+| Aspect | As built |
+|---|---|
+| Default (`auto`) | A real `GEMINI_API_KEY` selects **Gemini API**; otherwise a real `DO_GENAI_API_KEY` selects DigitalOcean; otherwise **rules-only** (`deterministic_only`, disclosed in every report). |
+| Placeholder keys | Values such as `dummy-…`, `your-key-here`, `<paste>`, `changeme` are treated as **not set** (`isPlaceholderKey`), so a fake key never triggers failing provider calls. |
+| Gemini adapter | `src/ai/providers/gemini.ts` using `@google/genai`: `systemInstruction`, `temperature`, `maxOutputTokens`, `abortSignal`; tries `responseMimeType: application/json` + `thinkingLevel: MINIMAL` and retries once without them on HTTP 400. Images go as `inlineData`. |
+| Models | `GEMINI_PRIMARY_MODEL=gemma-4-31b-it`, `GEMINI_FALLBACK_MODEL=gemma-4-26b-a4b-it` (IDs from Google's Gemma-on-Gemini-API docs, original verification V1). Fallback chain still stays within the Gemma family, then rules-only (ADR-006 intent preserved). |
+| Unverified | Live calls with a real key; whether these Gemma IDs accept JSON mime, thinking config, and **image input** on the Gemini API (docs showed file-upload only). `GEMINI_VISION_MODEL` defaults to the primary model so screenshot mode is attempted; if the model rejects images the report degrades honestly. Run `npm run verify-model`. |
+| `/api/health` | Now includes `provider` (`"gemini"` \| `"digitalocean"` \| `null`); never the key. |
+| Hackathon note | The DO-track alignment (Plan/Architecture header text) is now only partially true: hosting can still be DigitalOcean App Platform, but inference is Gemini by default. Confirm the track's requirements with the organisers. |

@@ -27,7 +27,22 @@ const strFrom = (def: string) =>
     .optional()
     .transform((v) => (v === undefined || v.trim() === "" ? def : v.trim()));
 
+/** True for obviously fake values ("dummy-key", "your-key-here", "<paste>") so they never count as real credentials. */
+export function isPlaceholderKey(v: string | undefined): boolean {
+  const s = (v ?? "").trim();
+  return s === "" || /dummy|placeholder|changeme|change-me|your[-_ ]?(api[-_ ]?)?key|replace|example|xxxx|todo|not[-_ ]?(a[-_ ]?)?real|<.*>/i.test(s);
+}
+
 const EnvSchema = z.object({
+  // "auto" prefers Gemini when a real GEMINI_API_KEY is present, else DigitalOcean, else rules-only.
+  AI_PROVIDER: strFrom("auto"),
+  GEMINI_API_KEY: z.string().optional(),
+  // Google docs list these Gemma 4 model IDs for the Gemini API. Verify with `npm run verify-model`.
+  GEMINI_PRIMARY_MODEL: strFrom("gemma-4-31b-it"),
+  GEMINI_FALLBACK_MODEL: strFrom("gemma-4-26b-a4b-it"),
+  // Gemma 4 is multimodal, but image input on the Gemini API is unverified: leave empty to disable screenshot mode.
+  GEMINI_VISION_MODEL: strFrom("gemma-4-31b-it"),
+  GEMINI_VISION_FALLBACK_MODEL: z.string().optional(),
   DO_GENAI_API_KEY: z.string().optional(),
   // Verified in DigitalOcean docs: https://inference.do-ai.run/v1 (OpenAI-compatible).
   DO_GENAI_BASE_URL: strFrom("https://inference.do-ai.run/v1"),
@@ -53,6 +68,8 @@ const EnvSchema = z.object({
 });
 
 export interface AppConfig {
+  /** Which provider is active; null means no real key (rules-only). */
+  provider: "gemini" | "digitalocean" | null;
   apiKey: string | null;
   baseUrl: string;
   primaryModel: string;
@@ -79,18 +96,31 @@ export interface AppConfig {
 export function parseConfig(env: Record<string, string | undefined> = process.env): AppConfig {
   const e = EnvSchema.parse(env);
   const blank = (v?: string) => (v && v.trim() ? v.trim() : null);
-  const apiKey = blank(e.DO_GENAI_API_KEY);
-  const fallback = blank(e.TRUSTLENS_FALLBACK_MODEL);
-  const level = ["debug", "info", "warn", "error"].includes(e.LOG_LEVEL)
-    ? (e.LOG_LEVEL as AppConfig["logLevel"])
-    : "info";
+  const geminiKey = isPlaceholderKey(e.GEMINI_API_KEY) ? null : e.GEMINI_API_KEY!.trim();
+  const doKey = isPlaceholderKey(e.DO_GENAI_API_KEY) ? null : e.DO_GENAI_API_KEY!.trim();
+
+  const want = e.AI_PROVIDER.toLowerCase();
+  const provider: AppConfig["provider"] =
+    want === "gemini" ? (geminiKey ? "gemini" : null)
+    : want === "digitalocean" ? (doKey ? "digitalocean" : null)
+    : geminiKey ? "gemini" : doKey ? "digitalocean" : null;
+  const apiKey = provider === "gemini" ? geminiKey : provider === "digitalocean" ? doKey : null;
+
+  // Model names are provider-specific. With no provider configured, show the Gemma defaults (the default target).
+  const useDo = provider === "digitalocean";
+  const primary = useDo ? e.TRUSTLENS_PRIMARY_MODEL : e.GEMINI_PRIMARY_MODEL;
+  const fallbackRaw = useDo ? blank(e.TRUSTLENS_FALLBACK_MODEL) : blank(e.GEMINI_FALLBACK_MODEL);
+  const vision = useDo ? blank(e.TRUSTLENS_VISION_MODEL) : blank(e.GEMINI_VISION_MODEL);
+  const visionFallback = useDo ? blank(e.TRUSTLENS_VISION_FALLBACK_MODEL) : blank(e.GEMINI_VISION_FALLBACK_MODEL);
+  const level = ["debug", "info", "warn", "error"].includes(e.LOG_LEVEL) ? (e.LOG_LEVEL as AppConfig["logLevel"]) : "info";
   return {
+    provider,
     apiKey,
     baseUrl: e.DO_GENAI_BASE_URL.replace(/\/+$/, ""),
-    primaryModel: e.TRUSTLENS_PRIMARY_MODEL,
-    fallbackModel: fallback && fallback !== e.TRUSTLENS_PRIMARY_MODEL ? fallback : null,
-    visionModel: blank(e.TRUSTLENS_VISION_MODEL),
-    visionFallbackModel: blank(e.TRUSTLENS_VISION_FALLBACK_MODEL),
+    primaryModel: primary,
+    fallbackModel: fallbackRaw && fallbackRaw !== primary ? fallbackRaw : null,
+    visionModel: vision,
+    visionFallbackModel: visionFallback,
     jsonMode: e.TRUSTLENS_JSON_MODE.toLowerCase() !== "false",
     modelTimeoutMs: e.TRUSTLENS_MODEL_TIMEOUT_MS,
     rateLimitPerMin: e.TRUSTLENS_RATE_LIMIT_PER_MIN,

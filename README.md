@@ -16,6 +16,8 @@ An open-source, evidence-based scam and phishing investigation platform powered 
 
 ---
 
+> **AI provider update (2026-10-27):** inference now defaults to the **Gemini API serving Google's open-weight Gemma 4** (`AI_PROVIDER=auto`); DigitalOcean GenAI remains an optional second provider. With no real key the app runs **rules-only** and says so in every report. See [`Server_End/README.md`](Server_End/README.md).
+
 > ## ⚠️ Project status — please read
 > TrustLens AI is being built for **Hacktoberfest Hack Day Chandigarh 2026** (Track: **Best Open-Source AI Project by DigitalOcean**, submission deadline **27 Oct 2026, 16:30 IST**).
 >

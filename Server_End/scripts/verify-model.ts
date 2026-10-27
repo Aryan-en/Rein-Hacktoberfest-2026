@@ -1,66 +1,54 @@
 /**
- * T0-01: verifies the DigitalOcean GenAI endpoint with YOUR key. Never prints the key.
- *   DO_GENAI_API_KEY=... npx tsx scripts/verify-model.ts
- * Checks: GET /models, each configured model answers, system-instruction + JSON mode behaviour,
- * and (if TRUSTLENS_VISION_MODEL is set) image input. Results are written to evals/results/.
+ * Verifies the configured AI provider with YOUR key. Never prints the key.
+ *   npm run verify-model
+ * Probes each configured model through the same adapter the server uses: plain answer, JSON-ish output,
+ * and (if a vision model is configured) a tiny image. Results are written to evals/results/.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
-import OpenAI from "openai";
+import { createProvider } from "../src/ai/providers";
 import { loadDotEnv, parseConfig } from "../src/config/env";
+import { AiProviderError } from "../src/types/ai";
 
 loadDotEnv();
 const cfg = parseConfig();
-if (!cfg.apiKey) {
-  console.error("DO_GENAI_API_KEY is not set (put it in Server_End/.env or the environment). Nothing was verified.");
+const provider = createProvider(cfg);
+if (!provider || !cfg.provider) {
+  console.error("No real API key found. Set GEMINI_API_KEY (or DO_GENAI_API_KEY) in Server_End/.env. Placeholder values like 'dummy-…' are ignored. Nothing was verified.");
   process.exit(2);
 }
-const client = new OpenAI({ apiKey: cfg.apiKey, baseURL: cfg.baseUrl, maxRetries: 0, timeout: 40_000 });
-const out: Record<string, unknown> = { date: new Date().toISOString(), baseUrl: cfg.baseUrl };
-const row = (k: string, v: unknown) => { out[k] = v; console.log(k.padEnd(34), typeof v === "string" ? v : JSON.stringify(v)); };
+const out: Record<string, unknown> = { date: new Date().toISOString(), provider: cfg.provider };
+const row = (k: string, v: unknown) => { out[k] = v; console.log(k.padEnd(40), typeof v === "string" ? v : JSON.stringify(v)); };
+console.log(`Provider: ${cfg.provider}`);
 
 // 1x1 transparent PNG
-const PNG_1PX = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==";
-
-let available: string[] = [];
-try {
-  const list = await client.models.list();
-  available = list.data.map((m) => m.id);
-  row("models.list", `${available.length} models`);
-  console.log("  available:", available.join(", "));
-} catch (e) {
-  row("models.list", `FAILED (${(e as { status?: number }).status ?? "network"}): ${(e as Error).message.slice(0, 160)}`);
-}
+const PNG_1PX = Uint8Array.from(Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==", "base64"));
 
 async function probe(model: string, label: string, image = false) {
-  const started = Date.now();
+  const t0 = Date.now();
   try {
-    const res = await client.chat.completions.create({
-      model,
-      max_tokens: 80,
-      temperature: 0,
-      messages: [
-        { role: "system", content: "You reply only with a JSON object." },
-        { role: "user", content: image
-          ? [{ type: "text", text: 'Reply with {"ok":true,"saw_image":true}' }, { type: "image_url", image_url: { url: `data:image/png;base64,${PNG_1PX}` } }]
-          : 'Reply with {"ok":true}' },
-      ],
-      response_format: { type: "json_object" },
-    } as never);
-    const text = res.choices[0]?.message?.content ?? "";
-    let json = false; try { JSON.parse(text); json = true; } catch { /* not JSON */ }
-    row(`${label}:${model}`, { ok: true, ms: Date.now() - started, jsonModeValidJson: json, sample: text.slice(0, 80) });
+    const r = await provider!.generate(
+      {
+        model,
+        systemInstruction: "You reply only with a JSON object.",
+        userText: image ? 'Reply with {"ok":true,"saw_image":true}' : 'Reply with {"ok":true}',
+        ...(image ? { image: { mimeType: "image/png" as const, data: PNG_1PX } } : {}),
+        maxOutputTokens: 120,
+        temperature: 0,
+        jsonMode: cfg.jsonMode,
+      },
+      { signal: AbortSignal.timeout(45_000) },
+    );
+    let json = false; try { JSON.parse(r.text.replace(/^```json\s*|```$/g, "")); json = true; } catch { /* not JSON */ }
+    row(`${label}:${model}`, { ok: true, ms: Date.now() - t0, parsesAsJson: json, modelReported: r.modelReported ?? null, sample: r.text.slice(0, 80) });
   } catch (e) {
-    const err = e as { status?: number; message?: string };
-    row(`${label}:${model}`, { ok: false, status: err.status ?? "network", error: String(err.message).slice(0, 200) });
+    const kind = e instanceof AiProviderError ? e.kind : "unknown";
+    row(`${label}:${model}`, { ok: false, kind, hint: kind === "auth" ? "key rejected" : kind === "bad_request" ? "model ID or feature not available to this key" : kind === "rate_limited" ? "quota/rate limit" : "see server logs" });
   }
 }
 
-for (const m of [cfg.primaryModel, cfg.fallbackModel].filter((m): m is string => !!m)) {
-  if (available.length && !available.includes(m)) console.warn(`  WARNING: ${m} is not in /models. Set TRUSTLENS_*_MODEL to an ID listed above.`);
-  await probe(m, "text");
-}
-if (cfg.visionModel) await probe(cfg.visionModel, "vision", true);
-else row("vision", "TRUSTLENS_VISION_MODEL not set: screenshot mode will be disabled");
+for (const m of [cfg.primaryModel, cfg.fallbackModel].filter((m): m is string => !!m)) await probe(m, "text");
+if (cfg.visionModel) await probe(cfg.visionModel, "vision(image input)", true);
+else row("vision", "no vision model configured: screenshot mode disabled");
 
 mkdirSync(new URL("../evals/results/", import.meta.url), { recursive: true });
-writeFileSync(new URL(`../evals/results/verify-model-${new Date().toISOString().slice(0, 10)}.json`, import.meta.url), JSON.stringify(out, null, 2));
+writeFileSync(new URL(`../evals/results/verify-model-${cfg.provider}-${new Date().toISOString().slice(0, 10)}.json`, import.meta.url), JSON.stringify(out, null, 2));

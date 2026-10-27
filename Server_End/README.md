@@ -4,6 +4,10 @@ Evidence-based scam & phishing investigation API. A deterministic security engin
 
 > **Status (honest):** implemented and tested locally with a fake model provider (194 tests) and a rules-only evaluation (30/30). **No live DigitalOcean GenAI call has been made yet**: it needs `DO_GENAI_API_KEY`. Default model IDs and the vision path are unverified until you run `npm run verify-model`. See `../context/Progress-tracker.md`.
 
+## AI provider
+
+`AI_PROVIDER=auto` (default): a real `GEMINI_API_KEY` uses the **Gemini API** (Gemma 4: `gemma-4-31b-it` then `gemma-4-26b-a4b-it`); otherwise a real `DO_GENAI_API_KEY` uses DigitalOcean GenAI; otherwise **rules-only**. Placeholder values (`dummy-…`, `your-key-here`) are ignored, so they never cause failing calls. Get a Gemini key at https://aistudio.google.com/apikey and paste it into `Server_End/.env`.
+
 ## Quick start
 
 ```bash

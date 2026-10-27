@@ -239,6 +239,7 @@ export function createApp(deps: AppDeps) {
           status: "ok",
           version: VERSION,
           ai: config.aiConfigured ? "configured" : "missing_key",
+          provider: config.provider,
           models: { primary: config.primaryModel, fallback: config.fallbackModel, vision: config.visionModel },
           screenshot: config.aiConfigured && !!config.visionModel ? "enabled" : "disabled",
           auth: "enabled",
