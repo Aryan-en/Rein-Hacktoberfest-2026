@@ -2,16 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpenCheck, History, Lightbulb, Search, type LucideIcon } from "lucide-react";
+import { Bell, BarChart3, FileText, Globe2, History, LayoutDashboard, Lightbulb, ListChecks, Search, Settings, ShieldCheck, Sparkles, type LucideIcon } from "lucide-react";
+import { Gauge } from "@/components/dashboard/charts";
 import { useInvestigation } from "@/context/investigation-context";
 import { cn } from "@/lib/cn";
 import { ui, type UiKey } from "@/lib/i18n";
 import { Logo } from "./Logo";
 
 const NAV: Array<{ href: string; key: UiKey; icon: LucideIcon }> = [
+  { href: "/dashboard", key: "navDashboard", icon: LayoutDashboard },
   { href: "/", key: "navInvestigate", icon: Search },
   { href: "/history", key: "navHistory", icon: History },
-  { href: "/learn", key: "navLearn", icon: BookOpenCheck },
+  { href: "/learn", key: "navLearn", icon: ShieldCheck },
+  { href: "/resources", key: "navResources", icon: FileText },
+  { href: "/settings", key: "navSettings", icon: Settings },
 ];
 
 function SystemStatus() {
@@ -30,6 +34,57 @@ function SystemStatus() {
         {health && <span className="text-xs text-muted">v{health.version}</span>}
       </div>
     </div>
+  );
+}
+
+const GITHUB = "https://github.com/Aryan-en/Rein-Hacktoberfest-2026";
+
+function GithubMark() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="h-7 w-7 fill-current">
+      <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.34.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+    </svg>
+  );
+}
+
+function DashboardExtras() {
+  const { lang, history, health } = useInvestigation();
+  const flagged = history.filter((h) => h.report.classification.risk === "high" || h.report.classification.risk === "medium").length;
+  const subs: Array<{ href: string; label: string; icon: LucideIcon; badge?: number }> = [
+    { href: "#alerts", label: lang === "hi" ? "चेतावनियाँ" : "Alerts", icon: Bell, ...(flagged > 0 ? { badge: flagged } : {}) },
+    { href: "#trends", label: lang === "hi" ? "स्कैम रुझान" : "Scam Trends", icon: BarChart3 },
+    { href: "#map", label: lang === "hi" ? "खतरा मानचित्र" : "Threat Map", icon: Globe2 },
+    { href: "#detections", label: lang === "hi" ? "हाल की पहचान" : "Recent Detections", icon: ListChecks },
+    { href: "#insights", label: lang === "hi" ? "इनसाइट्स" : "Insights", icon: Sparkles },
+  ];
+  return (
+    <>
+      <ul aria-label="Dashboard sections" className="-mt-2 ml-3 flex flex-col gap-0.5 border-l border-line pl-3">
+        {subs.map(({ href, label, icon: Icon, badge }) => (
+          <li key={href}>
+            <a href={href} className="flex min-h-9 items-center gap-2.5 rounded-lg px-2 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-text">
+              <Icon aria-hidden className="h-4 w-4" />
+              <span className="flex-1">{label}</span>
+              {badge !== undefined && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-high px-1 text-[11px] font-semibold text-white">{badge}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-auto flex flex-col gap-3">
+        <div className="card p-4 text-center">
+          <div className="text-sm font-medium">{lang === "hi" ? "सत्र सुरक्षा" : "Session Protection"}</div>
+          <div className="mt-2"><Gauge value={history.length} flagged={flagged} label={lang === "hi" ? "जाँचें" : "investigations"} /></div>
+          <div className="mt-1 text-xs text-muted">{lang === "hi" ? `इस सत्र में जाँचे गए (${flagged} चिह्नित)` : `Analyzed this session (${flagged} flagged)`}</div>
+        </div>
+        <div className="card flex items-center justify-between p-4">
+          <div>
+            <div className="text-sm font-semibold">TrustLens <span className="text-accent">AI</span></div>
+            <div className="mt-0.5 text-xs text-muted">v{health?.version ?? "0.1.0"} · Open Source</div>
+          </div>
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer" aria-label="TrustLens on GitHub" className="grid h-11 w-11 place-items-center rounded-lg text-text hover:bg-surface-3"><GithubMark /></a>
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -60,7 +115,14 @@ export function Sidebar() {
           );
         })}
       </nav>
-      <div className="mt-auto flex flex-col gap-3">
+      {pathname === "/dashboard" ? <DashboardExtras /> : (
+        <>
+      <svg aria-hidden viewBox="0 0 200 90" className="mt-auto h-20 w-full opacity-80">
+        <defs><linearGradient id="mt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#2dd4bf" stopOpacity="0.45" /><stop offset="1" stopColor="#2dd4bf" stopOpacity="0" /></linearGradient></defs>
+        <path d="M0 90 L0 70 L22 62 L40 66 L62 38 L78 50 L98 14 L116 44 L134 30 L152 52 L172 40 L200 58 L200 90 Z" fill="url(#mt)" />
+        <path d="M0 70 L22 62 L40 66 L62 38 L78 50 L98 14 L116 44 L134 30 L152 52 L172 40 L200 58" fill="none" stroke="#2dd4bf" strokeWidth="1.5" />
+      </svg>
+      <div className="flex flex-col gap-3">
         <div className="card p-4">
           <div className="flex items-center gap-2 text-sm font-medium">
             <Lightbulb aria-hidden className="h-4 w-4 text-accent" />
@@ -74,6 +136,8 @@ export function Sidebar() {
         </div>
         <SystemStatus />
       </div>
+        </>
+      )}
     </aside>
   );
 }
@@ -83,26 +147,26 @@ export function MobileNav() {
   const { lang } = useInvestigation();
   return (
     <header className="no-print glass sticky top-0 z-20 border-b border-line lg:hidden">
-      <div className="flex items-center justify-between px-4 py-3">
-        <Link href="/" aria-label="TrustLens AI home">
+      <div className="px-4 pt-3">
+        <Link href="/" aria-label="TrustLens AI home" className="inline-block">
           <span className="text-lg font-bold">
             TrustLens <span className="text-accent">AI</span>
           </span>
         </Link>
-        <nav aria-label="Primary" className="flex gap-1">
-          {NAV.map(({ href, key, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              aria-current={pathname === href ? "page" : undefined}
-              aria-label={ui(key, lang)}
-              className={cn("grid h-11 w-11 place-items-center rounded-lg", pathname === href ? "bg-accent/15 text-accent" : "text-muted")}
-            >
-              <Icon aria-hidden className="h-5 w-5" />
-            </Link>
-          ))}
-        </nav>
       </div>
+      <nav aria-label="Primary" className="flex px-2 pb-1 pt-1">
+        {NAV.map(({ href, key, icon: Icon }) => (
+          <Link
+            key={href}
+            href={href}
+            aria-current={pathname === href ? "page" : undefined}
+            aria-label={ui(key, lang)}
+            className={cn("grid h-11 min-w-0 flex-1 place-items-center rounded-lg", pathname === href ? "bg-accent/15 text-accent" : "text-muted")}
+          >
+            <Icon aria-hidden className="h-5 w-5" />
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

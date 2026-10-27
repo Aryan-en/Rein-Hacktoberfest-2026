@@ -1,6 +1,8 @@
 import type { AnalyzeRequest, HealthInfo, InvestigationReport } from "./types";
 
-export const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8080").replace(/\/+$/, "");
+// Default: same-origin "/api/*", proxied to BACKEND_URL by the rewrite in next.config.ts (no CORS needed).
+// Set NEXT_PUBLIC_API_BASE_URL to call a backend directly instead (then enable CORS on it).
+export const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "").replace(/\/+$/, "");
 
 export class ApiClientError extends Error {
   constructor(

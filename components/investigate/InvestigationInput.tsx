@@ -119,8 +119,8 @@ export function InvestigationInput({ lang, busy, cooldown, health, healthChecked
               mode === m ? "border-accent bg-accent/10 text-text" : "border-transparent text-muted hover:bg-surface-2 hover:text-text",
             )}
           >
-            <Icon aria-hidden className={cn("h-5 w-5 shrink-0", mode === m && "text-accent")} />
-            <span className="truncate">{ui(key, lang)}</span>
+            <Icon aria-hidden className={cn("hidden h-5 w-5 shrink-0 sm:block", mode === m && "text-accent")} />
+            <span className="text-center text-[13px] leading-tight sm:truncate sm:text-inherit">{ui(key, lang)}</span>
           </button>
         ))}
       </div>

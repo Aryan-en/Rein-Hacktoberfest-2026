@@ -10,6 +10,9 @@ export const hindiMissing = (t: LocalizedText | undefined | null, lang: Lang): b
 const UI = {
   tagline: { en: "Understand the Threat. Verify the Evidence.", hi: "खतरे को समझें। सबूत जाँचें।" },
   navInvestigate: { en: "Investigate", hi: "जाँच करें" },
+  navDashboard: { en: "Dashboard", hi: "डैशबोर्ड" },
+  navResources: { en: "Resources", hi: "संसाधन" },
+  navSettings: { en: "Settings", hi: "सेटिंग्स" },
   navHistory: { en: "History", hi: "इतिहास" },
   navLearn: { en: "Learn & Protect", hi: "सीखें और बचें" },
   heroA: { en: "Detect", hi: "ठगी" },

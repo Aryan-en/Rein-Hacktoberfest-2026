@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
+import { TopBar } from "./TopBar";
 import { MobileNav, Sidebar } from "./Sidebar";
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -10,11 +10,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       </a>
       <Sidebar />
       <MobileNav />
-      <div className="lg:pl-60">
-        <div className="no-print absolute right-4 top-16 z-10 lg:right-8 lg:top-5">
-          <LanguageSwitcher />
-        </div>
-        <main id="main" tabIndex={-1} className="mx-auto w-full max-w-[1320px] px-4 pb-16 pt-24 outline-none sm:px-6 lg:px-8 lg:pt-8">
+      <div className="overflow-x-clip lg:pl-60">
+        <TopBar />
+        <main id="main" tabIndex={-1} className="mx-auto w-full max-w-[1320px] px-4 pb-16 pt-32 outline-none sm:px-6 lg:px-8 lg:pt-8">
           {children}
         </main>
       </div>

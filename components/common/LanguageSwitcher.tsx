@@ -1,38 +1,44 @@
 "use client";
 
-import { Languages } from "lucide-react";
+import { Check, ChevronDown, Languages } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useInvestigation } from "@/context/investigation-context";
-import { cn } from "@/lib/cn";
 import type { Lang } from "@/lib/types";
 
-const OPTIONS: Array<{ v: Lang; label: string; aria: string }> = [
-  { v: "en", label: "EN", aria: "English" },
-  { v: "hi", label: "हिन्दी", aria: "हिन्दी (Hindi)" },
+const OPTIONS: Array<{ v: Lang; short: string; label: string }> = [
+  { v: "en", short: "EN", label: "English" },
+  { v: "hi", short: "हिन्दी", label: "हिन्दी (Hindi)" },
 ];
 
-export function LanguageSwitcher({ className }: { className?: string }) {
+export function LanguageSwitcher() {
   const { lang, setLang } = useInvestigation();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent | KeyboardEvent) => {
+      if (e instanceof KeyboardEvent ? e.key === "Escape" : !ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", close);
+    document.addEventListener("keydown", close);
+    return () => { document.removeEventListener("mousedown", close); document.removeEventListener("keydown", close); };
+  }, [open]);
+  const cur = OPTIONS.find((o) => o.v === lang)!;
   return (
-    <div role="radiogroup" aria-label="Language" className={cn("glass inline-flex items-center gap-1 rounded-full border border-line p-1", className)}>
-      <Languages aria-hidden className="ml-2 h-4 w-4 text-muted" />
-      {OPTIONS.map((o) => (
-        <button
-          key={o.v}
-          role="radio"
-          aria-checked={lang === o.v}
-          aria-label={o.aria}
-          onClick={() => setLang(o.v)}
-          className={cn(
-            "min-h-8 rounded-full px-3 text-sm font-medium transition-colors",
-            lang === o.v ? "bg-accent text-accent-fg" : "text-muted hover:bg-surface-3 hover:text-text",
-          )}
-        >
-          {o.label}
-        </button>
-      ))}
-      <span className="sr-only" aria-live="polite">
-        {lang === "hi" ? "Language set to Hindi" : "Language set to English"}
-      </span>
+    <div ref={ref} className="relative">
+      <button type="button" aria-haspopup="menu" aria-expanded={open} aria-label="Language" onClick={() => setOpen((o) => !o)} className="glass inline-flex h-11 items-center gap-2 rounded-xl border border-line px-3 text-sm hover:border-accent/50">
+        <Languages aria-hidden className="h-4 w-4 text-muted" /> {cur.short} <ChevronDown aria-hidden className="h-4 w-4 text-muted" />
+      </button>
+      {open && (
+        <div role="menu" className="glass absolute right-0 z-40 mt-2 w-48 rounded-xl border border-line p-1.5 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)]">
+          {OPTIONS.map((o) => (
+            <button key={o.v} role="menuitemradio" aria-checked={lang === o.v} type="button" onClick={() => { setLang(o.v); setOpen(false); }} className="flex min-h-11 w-full items-center justify-between rounded-lg px-3 text-sm hover:bg-surface-3">
+              {o.label} {lang === o.v && <Check aria-hidden className="h-4 w-4 text-accent" />}
+            </button>
+          ))}
+        </div>
+      )}
+      <span className="sr-only" aria-live="polite">{lang === "hi" ? "Language set to Hindi" : "Language set to English"}</span>
     </div>
   );
 }
