@@ -762,3 +762,18 @@ The backend was implemented as a **standalone Node/TypeScript HTTP server** in `
 | Logging | Allow-list logger (`src/lib/logger.ts`) drops any field not in a fixed set; a test asserts submitted content never appears in logs. |
 | Not implemented | `InvestigationReportSchema` (Zod response schema), Playwright E2E, CSP for a frontend (API sets `default-src 'none'`), live-model evals (script exists; needs key), the frontend. |
 | Unverified | Live DigitalOcean endpoint behaviour, the default model IDs (`meta-llama/llama-3.3-70b-instruct`, `meta-llama/llama-3.1-8b-instruct`), JSON-mode support, vision support, quotas. Run `npm run verify-model` in `Server_End/` with a key. DigitalOcean's catalog may use different ID strings than the defaults. |
+
+### 13.1 Accounts (added 2026-10-27, user-directed): ADR-015
+
+Decision: add **optional** email+password accounts to the backend. Guests keep full functionality; accounts only raise the per-minute request allowance (`TRUSTLENS_USER_RATE_LIMIT_PER_MIN`, default 30 vs 10) and never store investigations. This amends ADR-002 ("stateless, no database"): the server now stores account records (email, name, password hash, created-at) and nothing else.
+
+| Aspect | As built |
+|---|---|
+| Endpoints | `POST /api/auth/signup`, `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me` (200 `{user:null}` when anonymous), `DELETE /api/auth/account` (requires password). New error codes: `invalid_credentials` (401), `email_taken` (409), `too_many_attempts` (429), `unauthorized` (401). |
+| Passwords | scrypt (N=2^14, r=8, p=1, 16-byte salt) via `node:crypto`; constant-time compare; dummy hash for unknown emails to equalise timing. Common-password blocklist; 8-128 chars. |
+| Sessions | Stateless signed token `base64url(payload).HMAC-SHA256` in cookie `tl_session` (HttpOnly, SameSite=Lax, Secure over HTTPS, 7 days). `AUTH_SECRET` required for stable sessions; without it a random per-process secret is used (sessions end on restart). No server-side revocation: logout clears the cookie only. |
+| Brute force | 5 failed logins per IP+email per 15 min, then 429 with `Retry-After`. Generic error for unknown email and wrong password. |
+| CSRF | SameSite=Lax plus mandatory `application/json` bodies (triggers CORS preflight cross-site). No Origin check (the Next.js proxy forwards the browser's Origin). |
+| Storage | `FileUserStore`: JSON file (`AUTH_DATA_FILE`, default `data/users.json`, mode 0600, atomic rename, refuses to start on a corrupt file). **Ephemeral on App Platform: accounts are lost on redeploy; use a managed database for real use** (swap the `UserStore` interface). |
+| Logging | Only `event` names (`signup`, `login`, `account_deleted`); never emails or passwords (tested). |
+| Not implemented | Password reset, email verification, OAuth/social login, MFA, session revocation lists. The UI says reset is unavailable instead of faking it. |

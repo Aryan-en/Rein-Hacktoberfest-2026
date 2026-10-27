@@ -44,6 +44,10 @@ const EnvSchema = z.object({
   TRUSTLENS_MAX_IMAGE_BYTES: intFrom(4_194_304),
   TRUSTLENS_PROXY_HOPS: intFrom(1, 0),
   TRUSTLENS_CORS_ORIGINS: strFrom("http://localhost:3000"),
+  TRUSTLENS_USER_RATE_LIMIT_PER_MIN: intFrom(30),
+  AUTH_SECRET: z.string().optional(),
+  AUTH_DATA_FILE: strFrom("data/users.json"),
+  SESSION_TTL_DAYS: intFrom(7),
   PORT: intFrom(8080),
   LOG_LEVEL: strFrom("info"),
 });
@@ -63,6 +67,10 @@ export interface AppConfig {
   maxImageBytes: number;
   proxyHops: number;
   corsOrigins: string[];
+  userRateLimitPerMin: number;
+  authSecret: string | null;
+  authDataFile: string;
+  sessionTtlDays: number;
   port: number;
   logLevel: "debug" | "info" | "warn" | "error";
   aiConfigured: boolean;
@@ -91,6 +99,10 @@ export function parseConfig(env: Record<string, string | undefined> = process.en
     maxImageBytes: e.TRUSTLENS_MAX_IMAGE_BYTES,
     proxyHops: e.TRUSTLENS_PROXY_HOPS,
     corsOrigins: e.TRUSTLENS_CORS_ORIGINS.split(",").map((s) => s.trim()).filter(Boolean),
+    userRateLimitPerMin: e.TRUSTLENS_USER_RATE_LIMIT_PER_MIN,
+    authSecret: blank(e.AUTH_SECRET),
+    authDataFile: e.AUTH_DATA_FILE,
+    sessionTtlDays: e.SESSION_TTL_DAYS,
     port: e.PORT,
     logLevel: level,
     aiConfigured: apiKey !== null,

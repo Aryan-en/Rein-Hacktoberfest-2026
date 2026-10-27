@@ -11,7 +11,7 @@ export default function NotFound() {
       <h1 className="mt-2 text-3xl font-bold">This page could not be found</h1>
       <p className="mt-3 text-muted">The link may be mistyped or the page may have moved. Nothing was analyzed or stored.</p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <Link href="/" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-accent to-[#22d3ee] px-5 font-semibold text-accent-fg"><Search aria-hidden className="h-4 w-4" /> Start an investigation</Link>
+        <Link href="/investigate" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-gradient-to-r from-accent to-[#22d3ee] px-5 font-semibold text-accent-fg"><Search aria-hidden className="h-4 w-4" /> Start an investigation</Link>
         <Link href="/dashboard" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-line-strong bg-surface-2 px-5 hover:border-accent/50"><LayoutDashboard aria-hidden className="h-4 w-4" /> Dashboard</Link>
       </div>
     </div>

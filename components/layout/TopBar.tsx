@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import { Bell, CheckCircle2, ShieldAlert, Search, TriangleAlert, UserRound } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { LanguageSwitcher } from "@/components/common/LanguageSwitcher";
+import { useAuth } from "@/context/auth-context";
 import { useInvestigation } from "@/context/investigation-context";
+import { cn } from "@/lib/cn";
 import { pick } from "@/lib/i18n";
 import { CATEGORY_LABEL, RISK_LABEL } from "@/lib/labels";
 
@@ -43,7 +45,7 @@ function SearchBox() {
   }, []);
 
   const pages = useMemo(() => [
-    { href: "/", t: lang === "hi" ? "जाँच करें" : "Investigate" },
+    { href: "/investigate", t: lang === "hi" ? "जाँच करें" : "Investigate" },
     { href: "/dashboard", t: lang === "hi" ? "डैशबोर्ड" : "Dashboard" },
     { href: "/history", t: lang === "hi" ? "इतिहास" : "History" },
     { href: "/learn", t: lang === "hi" ? "सीखें और बचें (सुझाव)" : "Learn & Protect (safety tips)" },
@@ -73,7 +75,7 @@ function SearchBox() {
         <div className="border-line-strong bg-[#101b2d] absolute left-0 right-0 z-40 mt-2 rounded-xl border border-line p-1.5 shadow-[0_16px_48px_-16px_rgba(0,0,0,0.7)]">
           {hits.length === 0 && pageHits.length === 0 && <p className="px-3 py-3 text-sm text-muted">{lang === "hi" ? "कोई परिणाम नहीं।" : "No results."}</p>}
           {hits.map((h) => (
-            <button key={h.id} type="button" onClick={() => { openReport(h.id); setFocus(false); setQ(""); router.push("/"); }} className="block min-h-11 w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-surface-3">
+            <button key={h.id} type="button" onClick={() => { openReport(h.id); setFocus(false); setQ(""); router.push("/investigate"); }} className="block min-h-11 w-full rounded-lg px-3 py-2 text-left text-sm hover:bg-surface-3">
               <span className="line-clamp-1">{h.report.input.displayText}</span>
               <span className="text-xs text-muted">{pick(RISK_LABEL[h.report.classification.risk], lang)} · {pick(CATEGORY_LABEL[h.report.classification.category], lang)}</span>
             </button>
@@ -127,24 +129,42 @@ function Notifications() {
 
 function Account() {
   const { lang, history } = useInvestigation();
+  const { status, user, signOut } = useAuth();
+  const router = useRouter();
   const [isOpen, setOpen, popRef] = usePopover();
+  const t = (en: string, hi: string) => (lang === "hi" ? hi : en);
+  const link = "inline-flex min-h-9 items-center text-sm text-accent hover:underline";
   return (
     <div ref={popRef} className="relative">
-      <button type="button" aria-haspopup="dialog" aria-expanded={isOpen} aria-label={lang === "hi" ? "सत्र जानकारी" : "Session info"} onClick={() => setOpen((o) => !o)} className="grid h-11 w-11 place-items-center rounded-full border border-accent/50 bg-accent/10 hover:bg-accent/20">
-        <UserRound aria-hidden className="h-5 w-5 text-accent" />
+      <button type="button" aria-haspopup="dialog" aria-expanded={isOpen} aria-label={user ? `${t("Account", "खाता")}: ${user.name}` : t("Session info", "सत्र जानकारी")} onClick={() => setOpen((o) => !o)} className={cn("grid h-11 w-11 place-items-center rounded-full border border-accent/50 hover:bg-accent/20", user ? "bg-accent text-accent-fg" : "bg-accent/10")}>
+        {user ? <span aria-hidden className="text-sm font-bold">{user.name.slice(0, 1).toUpperCase()}</span> : <UserRound aria-hidden className="h-5 w-5 text-accent" />}
       </button>
       {isOpen && (
-        <Panel label={lang === "hi" ? "सत्र जानकारी" : "Session info"}>
-          <div className="text-sm font-semibold">{lang === "hi" ? "अतिथि सत्र" : "Guest session"}</div>
-          <p className="mt-1 text-sm leading-relaxed text-muted">
-            {lang === "hi" ? "कोई खाता नहीं है और आपकी सामग्री कहीं सहेजी नहीं जाती। इस सत्र में " : "There are no accounts and your content is never stored. This session has "}
-            <span className="text-text">{history.length}</span>
-            {lang === "hi" ? " जाँच हैं, जो रीफ़्रेश पर मिट जाती हैं।" : history.length === 1 ? " investigation, cleared on refresh." : " investigations, cleared on refresh."}
-          </p>
-          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
-            <Link href="/settings" onClick={() => setOpen(false)} className="inline-flex min-h-9 items-center text-sm text-accent hover:underline">{lang === "hi" ? "सेटिंग्स खोलें →" : "Open settings →"}</Link>
-            <button type="button" onClick={() => { setOpen(false); window.dispatchEvent(new Event("trustlens:shortcuts")); }} className="inline-flex min-h-9 items-center text-sm text-accent hover:underline">{lang === "hi" ? "कीबोर्ड शॉर्टकट" : "Keyboard shortcuts"}</button>
-          </div>
+        <Panel label={t("Account", "खाता")}>
+          {user ? (
+            <>
+              <div className="truncate text-sm font-semibold">{user.name}</div>
+              <div className="truncate text-xs text-muted">{user.email}</div>
+              <p className="mt-2 text-xs leading-relaxed text-muted">{t(`${history.length} investigation(s) in this tab. Nothing is stored on the server.`, `इस टैब में ${history.length} जाँच। सर्वर पर कुछ सहेजा नहीं जाता।`)}</p>
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+                <Link href="/account" onClick={() => setOpen(false)} className={link}>{t("Account", "खाता")}</Link>
+                <button type="button" onClick={() => { setOpen(false); window.dispatchEvent(new Event("trustlens:shortcuts")); }} className={link}>{t("Shortcuts", "शॉर्टकट")}</button>
+                <button type="button" onClick={() => { setOpen(false); void signOut().then(() => router.push("/")); }} className={link}>{t("Sign out", "साइन आउट")}</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="text-sm font-semibold">{status === "loading" ? "…" : t("Guest session", "अतिथि सत्र")}</div>
+              <p className="mt-1 text-sm leading-relaxed text-muted">
+                {t(`Your content is never stored. This session has ${history.length} investigation(s), cleared on refresh. Sign in for a higher request allowance.`, `आपकी सामग्री कभी सहेजी नहीं जाती। इस सत्र में ${history.length} जाँच हैं, जो रीफ़्रेश पर मिट जाती हैं। अधिक अनुरोध सीमा के लिए साइन इन करें।`)}
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link href="/auth" onClick={() => setOpen(false)} className="inline-flex min-h-10 items-center rounded-lg bg-accent px-4 text-sm font-semibold text-accent-fg">{t("Sign in", "साइन इन")}</Link>
+                <Link href="/auth?mode=signup" onClick={() => setOpen(false)} className="inline-flex min-h-10 items-center rounded-lg border border-line-strong px-4 text-sm hover:border-accent/50">{t("Create account", "खाता बनाएँ")}</Link>
+              </div>
+              <button type="button" onClick={() => { setOpen(false); window.dispatchEvent(new Event("trustlens:shortcuts")); }} className={cn(link, "mt-2")}>{t("Keyboard shortcuts", "कीबोर्ड शॉर्टकट")}</button>
+            </>
+          )}
         </Panel>
       )}
     </div>

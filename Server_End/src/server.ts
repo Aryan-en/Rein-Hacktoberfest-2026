@@ -8,6 +8,8 @@ loadDotEnv();
 const config = parseConfig();
 configureLogger(config.logLevel);
 
+if (!config.authSecret) log("warn", "AUTH_SECRET not set: using a random per-process secret (sessions end on restart)", { event: "startup" });
+
 const provider = config.apiKey ? new DigitalOceanProvider(createChatClient(config.apiKey, config.baseUrl)) : null;
 if (!provider) log("warn", "DO_GENAI_API_KEY not set: running in deterministic_only mode", { event: "startup" });
 

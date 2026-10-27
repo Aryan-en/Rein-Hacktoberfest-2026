@@ -107,7 +107,7 @@ export function LearnGuide() {
         icon={BookOpenCheck}
         title={ui("navLearn", lang)}
         subtitle={t("Learn the patterns behind common scams, test yourself, and know exactly what to do.", "आम ठगी के पीछे के पैटर्न सीखें, खुद को परखें और जानें कि क्या करना है।")}
-        actions={<Link href="/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-accent to-[#22d3ee] px-4 text-sm font-semibold text-accent-fg">{t("Check a message now", "अभी संदेश जाँचें")}<ArrowRight aria-hidden className="h-4 w-4" /></Link>}
+        actions={<Link href="/investigate" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-accent to-[#22d3ee] px-4 text-sm font-semibold text-accent-fg">{t("Check a message now", "अभी संदेश जाँचें")}<ArrowRight aria-hidden className="h-4 w-4" /></Link>}
       />
 
       <section aria-label={t("Common scams", "आम ठगियाँ")}>

@@ -158,7 +158,11 @@ export type ApiErrorCode =
   | "image_analysis_unavailable"
   | "internal_error"
   | "not_found"
-  | "method_not_allowed";
+  | "method_not_allowed"
+  | "invalid_credentials"
+  | "email_taken"
+  | "too_many_attempts"
+  | "unauthorized";
 
 export interface ApiError {
   error: {

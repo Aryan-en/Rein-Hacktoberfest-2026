@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bell, BarChart3, FileText, Globe2, History, LayoutDashboard, Lightbulb, ListChecks, Search, Settings, ShieldCheck, Sparkles, type LucideIcon } from "lucide-react";
 import { Gauge } from "@/components/dashboard/charts";
+import { GithubMark } from "@/components/common/GithubMark";
 import { TopBarControls } from "./TopBar";
 import { useInvestigation } from "@/context/investigation-context";
 import { cn } from "@/lib/cn";
@@ -12,7 +13,7 @@ import { Logo } from "./Logo";
 
 const NAV: Array<{ href: string; key: UiKey; icon: LucideIcon }> = [
   { href: "/dashboard", key: "navDashboard", icon: LayoutDashboard },
-  { href: "/", key: "navInvestigate", icon: Search },
+  { href: "/investigate", key: "navInvestigate", icon: Search },
   { href: "/history", key: "navHistory", icon: History },
   { href: "/learn", key: "navLearn", icon: ShieldCheck },
   { href: "/resources", key: "navResources", icon: FileText },
@@ -40,13 +41,6 @@ function SystemStatus() {
 
 const GITHUB = "https://github.com/Aryan-en/Rein-Hacktoberfest-2026";
 
-function GithubMark() {
-  return (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-7 w-7 fill-current">
-      <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.34.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
-    </svg>
-  );
-}
 
 function DashboardExtras() {
   const { lang, history, health } = useInvestigation();

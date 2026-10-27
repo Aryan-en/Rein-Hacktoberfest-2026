@@ -55,7 +55,7 @@ export function HistoryList() {
         <div className="card grid place-items-center gap-3 p-10 text-center">
           <span className="grid h-14 w-14 place-items-center rounded-2xl border border-line bg-surface-2"><History aria-hidden className="h-7 w-7 text-muted" /></span>
           <p className="max-w-md text-muted">{ui("noneYet", lang)}</p>
-          <Link href="/" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-accent to-[#22d3ee] px-5 font-semibold text-accent-fg"><Search aria-hidden className="h-4 w-4" />{t("Start an investigation", "जाँच शुरू करें")}</Link>
+          <Link href="/investigate" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-gradient-to-r from-accent to-[#22d3ee] px-5 font-semibold text-accent-fg"><Search aria-hidden className="h-4 w-4" />{t("Start an investigation", "जाँच शुरू करें")}</Link>
         </div>
       ) : (
         <>
@@ -85,7 +85,7 @@ export function HistoryList() {
                 const indicators = new Set(r.signals.map((s) => s.id)).size;
                 return (
                   <li key={h.id} className="card group flex items-stretch overflow-hidden">
-                    <button type="button" onClick={() => { open(h.id); router.push("/"); }} className="flex min-w-0 flex-1 items-center gap-4 p-4 text-left transition-colors hover:bg-surface-2/40">
+                    <button type="button" onClick={() => { open(h.id); router.push("/investigate"); }} className="flex min-w-0 flex-1 items-center gap-4 p-4 text-left transition-colors hover:bg-surface-2/40">
                       <span className={cn("grid h-12 w-12 shrink-0 place-items-center rounded-xl border", st.border, st.bg)}><TypeIcon aria-hidden className={cn("h-5 w-5", st.text)} /></span>
                       <span className="min-w-0 flex-1">
                         <span className="line-clamp-1 text-[15px] text-text">{r.input.displayText || t("(screenshot)", "(स्क्रीनशॉट)")}</span>

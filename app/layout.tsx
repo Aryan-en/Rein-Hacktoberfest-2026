@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_Devanagari } from "next/font/google";
-import { AppShell } from "@/components/layout/AppShell";
+import { AuthProvider } from "@/context/auth-context";
 import { InvestigationProvider } from "@/context/investigation-context";
 import "./globals.css";
 
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${deva.variable} dark h-full`}>
       <body className="min-h-full">
         <InvestigationProvider>
-          <AppShell>{children}</AppShell>
+          <AuthProvider>{children}</AuthProvider>
         </InvestigationProvider>
       </body>
     </html>

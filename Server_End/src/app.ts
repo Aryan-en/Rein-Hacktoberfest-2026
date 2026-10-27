@@ -1,8 +1,12 @@
 import { randomBytes } from "node:crypto";
+import { resolve } from "node:path";
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { ImageAnalysisUnavailableError, investigate, type InvestigateInput, type PipelineDeps } from "./analysis/pipeline";
 import type { AppConfig } from "./config/env";
 import { log } from "./lib/logger";
+import { AuthService } from "./auth/service";
+import { clearCookie, isSecureRequest, parseCookies, SESSION_COOKIE, sessionCookie, signSession, verifySession } from "./auth/session";
+import { FileUserStore, type User, type UserStore } from "./auth/store";
 import { validateImage } from "./security/image-validate";
 import { clientKey, RateLimiter } from "./security/rate-limit";
 import type { AiProvider } from "./types/ai";
@@ -16,6 +20,8 @@ export interface AppDeps {
   config: AppConfig;
   provider: AiProvider | null;
   limiter?: RateLimiter;
+  /** Account store. Defaults to a JSON file at config.authDataFile. */
+  userStore?: UserStore;
   /** Test seam to replace the pipeline. */
   investigateFn?: typeof investigate;
 }
@@ -37,7 +43,12 @@ const SECURITY_HEADERS = {
 export function createApp(deps: AppDeps) {
   const { config } = deps;
   const limiter = deps.limiter ?? new RateLimiter({ perMinute: config.rateLimitPerMin, dailyCap: config.dailyCap });
+  const userLimiter = new RateLimiter({ perMinute: config.userRateLimitPerMin, dailyCap: config.dailyCap });
   const run = deps.investigateFn ?? investigate;
+  const auth = new AuthService(deps.userStore ?? new FileUserStore(config.authDataFile ? resolve(config.authDataFile) : null));
+  // Without AUTH_SECRET a random per-process secret is used: sessions simply end when the server restarts.
+  const authSecret = config.authSecret ?? randomBytes(32).toString("hex");
+  const sessionTtl = config.sessionTtlDays * 86_400;
   const maxBody = Math.ceil((config.maxImageBytes * 4) / 3) + 65_536;
   const pipelineDeps: PipelineDeps = {
     provider: deps.provider,
@@ -70,22 +81,23 @@ export function createApp(deps: AppDeps) {
     if (origin && (config.corsOrigins.includes("*") || config.corsOrigins.includes(origin))) {
       res.setHeader("Access-Control-Allow-Origin", origin);
       res.setHeader("Vary", "Origin");
-      res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+      res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
       res.setHeader("Access-Control-Allow-Headers", "Content-Type");
       res.setHeader("Access-Control-Expose-Headers", "X-Request-Id, Retry-After");
       res.setHeader("Access-Control-Max-Age", "600");
     }
   }
 
-  function readBody(req: IncomingMessage): Promise<Buffer> {
+  function readBody(req: IncomingMessage, max = maxBody): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       const declared = Number(req.headers["content-length"]);
-      if (Number.isFinite(declared) && declared > maxBody) return reject(new HttpError(413, "payload_too_large", "Request body is too large."));
+      if (Number.isFinite(declared) && declared > max) return reject(new HttpError(413, "payload_too_large", "Request body is too large."));
       const chunks: Buffer[] = [];
       let size = 0;
       req.on("data", (c: Buffer) => {
         size += c.length;
-        if (size > maxBody) {
+        if (size > max) {
           chunks.length = 0;
           reject(new HttpError(413, "payload_too_large", "Request body is too large."));
           req.pause();
@@ -98,9 +110,63 @@ export function createApp(deps: AppDeps) {
     });
   }
 
+  function currentUser(req: IncomingMessage): User | null {
+    return auth.user(verifySession(authSecret, parseCookies(req.headers.cookie)[SESSION_COOKIE]));
+  }
+
+  async function readJson(req: IncomingMessage): Promise<unknown> {
+    const ctype = (req.headers["content-type"] ?? "").split(";")[0]!.trim().toLowerCase();
+    if (ctype !== "application/json") throw new HttpError(415, "unsupported_media_type", "Content-Type must be application/json.");
+    const raw = await readBody(req, 16_384);
+    try {
+      return JSON.parse(raw.toString("utf8"));
+    } catch {
+      throw new HttpError(400, "invalid_request", "Request body is not valid JSON.");
+    }
+  }
+
+  const failCode = (r: { status: number; code: string }) => r.code as ApiErrorCode;
+
+  async function authRoute(req: IncomingMessage, res: ServerResponse, requestId: string, path: string, method: string): Promise<void> {
+    const secure = isSecureRequest(req);
+    const ip = clientKey(req.headers, req.socket.remoteAddress, config.proxyHops);
+    if (path === "/api/auth/me") {
+      if (method !== "GET") throw new HttpError(405, "method_not_allowed", "Use GET.");
+      const u = currentUser(req);
+      return send(res, 200, { user: u ? { id: u.id, email: u.email, name: u.name, createdAt: u.createdAt } : null });
+    }
+    if (path === "/api/auth/logout") {
+      if (method !== "POST") throw new HttpError(405, "method_not_allowed", "Use POST.");
+      return send(res, 200, { ok: true }, { "Set-Cookie": clearCookie(secure) });
+    }
+    if (path === "/api/auth/account") {
+      if (method !== "DELETE") throw new HttpError(405, "method_not_allowed", "Use DELETE.");
+      const u = currentUser(req);
+      if (!u) throw new HttpError(401, "unauthorized", "Sign in first.");
+      const body = (await readJson(req)) as { password?: unknown };
+      if (!(await auth.confirmPassword(u, body?.password))) throw new HttpError(401, "invalid_credentials", "Password is incorrect.");
+      auth.deleteAccount(u.id);
+      log("info", "account deleted", { requestId, event: "account_deleted", status: 200 });
+      return send(res, 200, { ok: true }, { "Set-Cookie": clearCookie(secure) });
+    }
+    if (path === "/api/auth/signup" || path === "/api/auth/login") {
+      if (method !== "POST") throw new HttpError(405, "method_not_allowed", "Use POST.");
+      const body = await readJson(req);
+      const signup = path.endsWith("signup");
+      const r = signup ? await auth.signup(body) : await auth.login(body, ip);
+      if (!r.ok) throw new HttpError(r.status, failCode(r), r.message, { ...(r.fieldErrors ? { fieldErrors: r.fieldErrors } : {}), ...(r.retryAfterSeconds ? { retryAfterSeconds: r.retryAfterSeconds } : {}) });
+      const token = signSession(authSecret, r.user.id, sessionTtl);
+      log("info", signup ? "account created" : "login", { requestId, event: signup ? "signup" : "login", status: signup ? 201 : 200 });
+      return send(res, signup ? 201 : 200, { user: r.value }, { "Set-Cookie": sessionCookie(token, sessionTtl, secure) });
+    }
+    throw new HttpError(404, "not_found", "Not found.");
+  }
+
   async function analyze(req: IncomingMessage, res: ServerResponse, requestId: string): Promise<void> {
     const key = clientKey(req.headers, req.socket.remoteAddress, config.proxyHops);
-    const decision = limiter.check(key);
+    const account = currentUser(req);
+    // Signed-in users get their own (higher) per-minute allowance, keyed by account instead of IP.
+    const decision = account ? userLimiter.check(`user:${account.id}`) : limiter.check(key);
     if (!decision.allowed) {
       throw new HttpError(429, "rate_limited", decision.reason === "daily_cap" ? "The service has reached its daily analysis limit. Please try again later." : "Too many requests. Please wait before trying again.", { retryAfterSeconds: decision.retryAfterSeconds });
     }
@@ -175,7 +241,12 @@ export function createApp(deps: AppDeps) {
           ai: config.aiConfigured ? "configured" : "missing_key",
           models: { primary: config.primaryModel, fallback: config.fallbackModel, vision: config.visionModel },
           screenshot: config.aiConfigured && !!config.visionModel ? "enabled" : "disabled",
+          auth: "enabled",
         });
+      }
+      if (path.startsWith("/api/auth/")) {
+        await authRoute(req, res, requestId, path, method);
+        return;
       }
       if (path === "/api/analyze") {
         if (method !== "POST") throw new HttpError(405, "method_not_allowed", "Use POST.");

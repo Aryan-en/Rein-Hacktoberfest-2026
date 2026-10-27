@@ -56,7 +56,7 @@ export function Dashboard() {
   );
   const session = data.mode === "session";
   const badge = session ? SESSION_BADGE : SAMPLE_BADGE;
-  const openReport = (id?: string) => { if (id) { open(id); router.push("/"); } };
+  const openReport = (id?: string) => { if (id) { open(id); router.push("/investigate"); } };
 
   return (
     <div className="space-y-4 pt-1 lg:pt-12">
@@ -67,7 +67,7 @@ export function Dashboard() {
             ? t(`Showing real data from the ${history.length} investigation${history.length === 1 ? "" : "s"} in this session. The map and country shares are illustrative samples because TrustLens has no live global feed.`, `इस सत्र की ${history.length} जाँचों का वास्तविक डेटा। मानचित्र और देशों का हिस्सा नमूना है क्योंकि TrustLens के पास कोई लाइव वैश्विक फ़ीड नहीं है।`)
             : t("Illustrative sample data. TrustLens has no live global threat feed. Run an investigation and these panels switch to your real session data.", "ये उदाहरण (नमूना) आँकड़े हैं। TrustLens के पास कोई लाइव वैश्विक फ़ीड नहीं है। जाँच चलाएँ तो पैनल आपके वास्तविक सत्र डेटा पर बदल जाएँगे।")}
         </span>
-        {!session && <Link href="/" className="ml-auto inline-flex items-center gap-1 text-accent hover:underline">{t("Start an investigation", "जाँच शुरू करें")} <ArrowRight aria-hidden className="h-4 w-4" /></Link>}
+        {!session && <Link href="/investigate" className="ml-auto inline-flex items-center gap-1 text-accent hover:underline">{t("Start an investigation", "जाँच शुरू करें")} <ArrowRight aria-hidden className="h-4 w-4" /></Link>}
       </div>
 
       {/* KPI row */}

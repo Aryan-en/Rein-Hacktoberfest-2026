@@ -113,6 +113,7 @@ export interface HealthInfo {
   ai: "configured" | "missing_key";
   models: { primary: string; fallback: string | null; vision: string | null };
   screenshot: "enabled" | "disabled";
+  auth?: "enabled";
 }
 
 export const LIMITS = {
@@ -122,3 +123,10 @@ export const LIMITS = {
   maxNote: 500,
   imageTypes: ["image/png", "image/jpeg", "image/webp"] as const,
 };
+
+export interface AuthUser {
+  id: string;
+  email: string;
+  name: string;
+  createdAt: string;
+}

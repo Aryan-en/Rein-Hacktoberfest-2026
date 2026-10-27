@@ -31,6 +31,10 @@ curl -s -X POST localhost:8080/api/analyze -H 'content-type: application/json' \
 
 Status codes: `200` report (also when degraded) · `400 invalid_request` · `413 payload_too_large` · `415 unsupported_media_type` · `429 rate_limited` (+`Retry-After`) · `503 image_analysis_unavailable` · `500 internal_error`. Every response carries `X-Request-Id`.
 
+### Accounts (optional)
+
+`POST /api/auth/signup|login|logout`, `GET /api/auth/me`, `DELETE /api/auth/account`. Email+password; scrypt hashes; signed HttpOnly session cookie; login throttling. Guests work exactly as before; signed-in users get a higher per-minute allowance. Set `AUTH_SECRET` (e.g. `openssl rand -hex 32`) for stable sessions. Users live in `data/users.json` (gitignored; **ephemeral on App Platform**). See `../context/Architecture.md` §13.1.
+
 ## How a request is processed
 
 `rate limit → content-type/size checks → Zod validation → (image: size + magic-byte check) → normalize → URL & text heuristics → fenced prompt → model (primary → fallback → deterministic-only) → JSON parse/validate (+1 repair) → quote verification → risk classification → report`.
